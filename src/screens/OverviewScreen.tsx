@@ -11,11 +11,17 @@ import { colors } from '../theme/colors'
 type SectionCardProps = {
   title: string
   description: string
+  onPress?: () => void
 }
 
-function SectionCard({ title, description }: SectionCardProps) {
+type OverviewScreenProps = {
+  // callback jolla avataan MapScreen.
+  onOpenMap?: () => void
+}
+
+function SectionCard({ title, description, onPress }: SectionCardProps) {
   return (
-    <Pressable style={styles.sectionCard}>
+    <Pressable style={styles.sectionCard} onPress={onPress}>
       <View style={styles.sectionCardHeader}>
         <Text style={styles.sectionCardTitle}>{title}</Text>
         <Text style={styles.sectionCardArrow}>→</Text>
@@ -25,7 +31,7 @@ function SectionCard({ title, description }: SectionCardProps) {
   )
 }
 
-export default function OverviewScreen() {
+export default function OverviewScreen({ onOpenMap }: OverviewScreenProps) {
   return (
     <ScrollView
       style={styles.container}
@@ -62,6 +68,8 @@ export default function OverviewScreen() {
         <SectionCard
           title="Map overview"
           description="Opens the main outdoor map with detailed views of the terrain?"
+          // Korttia painamalla siirrytään karttasivulle.
+          onPress={onOpenMap}
         />
         <SectionCard
           title="Nature observations"
