@@ -17,6 +17,8 @@ type SectionCardProps = {
 type OverviewScreenProps = {
   // callback jolla avataan MapScreen.
   onOpenMap?: () => void
+  // callback jolla avataan ListOfSpeciesScreen.
+  onOpenListOfSpecies?: () => void
 }
 
 function SectionCard({ title, description, onPress }: SectionCardProps) {
@@ -31,7 +33,10 @@ function SectionCard({ title, description, onPress }: SectionCardProps) {
   )
 }
 
-export default function OverviewScreen({ onOpenMap }: OverviewScreenProps) {
+export default function OverviewScreen({
+  onOpenMap,
+  onOpenListOfSpecies,
+}: OverviewScreenProps) {
   return (
     <ScrollView
       style={styles.container}
@@ -70,6 +75,12 @@ export default function OverviewScreen({ onOpenMap }: OverviewScreenProps) {
           description="Opens the main outdoor map with detailed views of the terrain?"
           // Korttia painamalla siirrytään karttasivulle.
           onPress={onOpenMap}
+        />
+        <SectionCard
+          title="List of species"
+          description="Browse all recorded plant, berry, animals"
+          // Korttia painamalla siirrytään list of species -sivulle.
+          onPress={onOpenListOfSpecies}
         />
         <SectionCard
           title="Nature observations"
