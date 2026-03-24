@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
 import { colors } from '../theme/colors'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -29,17 +29,30 @@ export default function ListOfSpeciesScreen({
   onGoBack,
 }: ListOfSpeciesScreenProps) {
   const insets = useSafeAreaInsets()
+
+  // Hakukentän tila 
+  const [searchText, setSearchText] = React.useState('')
+
   return (
     <View
-            style={[
-              styles.container,
-              {
-                paddingTop: insets.top + 12,
-              },
-            ]}
-          >
+      style={[
+        styles.container,
+        {
+          paddingTop: insets.top + 12,
+        },
+      ]}
+    >
       <View style={styles.content}>
         <Text style={styles.title}>List of species</Text>
+
+        {/* Hakupalkki lajien hakemiseen nimellä. */}
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search species by name"
+          placeholderTextColor={colors.textSecondary}
+          value={searchText}
+          onChangeText={setSearchText}
+        />
 
         <View style={styles.cardsContainer}>
           <SpeciesCard
@@ -95,6 +108,17 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 24,
+  },
+  searchInput: {
+    backgroundColor: colors.surfaceVariant,
+    color: colors.textPrimary,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colors.outline,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    marginBottom: 16,
   },
   cardsContainer: {
     gap: 12,
