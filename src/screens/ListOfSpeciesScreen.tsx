@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { colors } from '../theme/colors'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type ListOfSpeciesScreenProps = {
   // callback jolla palataan takaisin pääsivulle.
@@ -27,15 +28,16 @@ function SpeciesCard({ title, description }: SpeciesCardProps) {
 export default function ListOfSpeciesScreen({
   onGoBack,
 }: ListOfSpeciesScreenProps) {
+  const insets = useSafeAreaInsets()
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        {/* Vasemman yläkulman nuoli takaisin Overview-sivulle. */}
-        <Pressable style={styles.backButton} onPress={onGoBack}>
-          <Text style={styles.backArrow}>←</Text>
-        </Pressable>
-      </View>
-
+    <View
+            style={[
+              styles.container,
+              {
+                paddingTop: insets.top + 12,
+              },
+            ]}
+          >
       <View style={styles.content}>
         <Text style={styles.title}>List of species</Text>
 
@@ -65,7 +67,6 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 14,
-    paddingTop: 10,
   },
   backButton: {
     width: 48,

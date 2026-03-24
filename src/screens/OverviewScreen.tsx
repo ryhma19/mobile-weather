@@ -6,7 +6,11 @@ import {
   View,
   Pressable,
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { colors } from '../theme/colors'
+import { RootTabParamList } from '../types/navigation'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type SectionCardProps = {
   title: string
@@ -14,12 +18,7 @@ type SectionCardProps = {
   onPress?: () => void
 }
 
-type OverviewScreenProps = {
-  // callback jolla avataan MapScreen.
-  onOpenMap?: () => void
-  // callback jolla avataan ListOfSpeciesScreen.
-  onOpenListOfSpecies?: () => void
-}
+type OverviewScreenNavigationProp = BottomTabNavigationProp<RootTabParamList>
 
 function SectionCard({ title, description, onPress }: SectionCardProps) {
   return (
@@ -33,16 +32,21 @@ function SectionCard({ title, description, onPress }: SectionCardProps) {
   )
 }
 
-export default function OverviewScreen({
-  onOpenMap,
-  onOpenListOfSpecies,
-}: OverviewScreenProps) {
+export default function OverviewScreen() {
+  const insets = useSafeAreaInsets()
+  const navigation = useNavigation<OverviewScreenNavigationProp>()
+
   return (
     <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
+  style={styles.container}
+  contentContainerStyle={[
+    styles.content,
+    {
+      paddingTop: insets.top + 12,
+    },
+  ]}
+  showsVerticalScrollIndicator={false}
+>
       <View style={styles.weatherCard}>
         <View style={styles.locationRow}>
           <Text style={styles.location}>Helsinki</Text>
@@ -73,14 +77,12 @@ export default function OverviewScreen({
         <SectionCard
           title="Map overview"
           description="Opens the main outdoor map with detailed views of the terrain?"
-          // Korttia painamalla siirrytään karttasivulle.
-          onPress={onOpenMap}
+          onPress={() => navigation.navigate('Map')}
         />
         <SectionCard
           title="List of species"
           description="Browse all recorded plant, berry, animals"
-          // Korttia painamalla siirrytään list of species -sivulle.
-          onPress={onOpenListOfSpecies}
+          onPress={() => navigation.navigate('Species')}
         />
         <SectionCard
           title="Nature observations"
@@ -104,7 +106,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 20,
-    paddingTop: 12,
   },
 
   weatherCard: {
