@@ -9,9 +9,10 @@ import { RootTabParamList } from "../types/navigation"
 import { colors } from "../theme/colors"
 import Entypo from "@expo/vector-icons/Entypo"
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from "@expo/vector-icons/Ionicons"
+import WeatherScreen from "../screens/WeatherScreen"
 
-const Tab = createBottomTabNavigator<RootTabParamList>();
+const Tab = createBottomTabNavigator<RootTabParamList>()
 
 export default function BottomNav() {
   return (
@@ -42,7 +43,11 @@ export default function BottomNav() {
         options={{
           tabBarLabel: "Overview",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={24} color={colors.textPrimary} />
+            <Ionicons
+              name="home-outline"
+              size={24}
+              color={colors.textPrimary}
+            />
           ),
         }}
       />
@@ -64,6 +69,20 @@ export default function BottomNav() {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="flower-outline"
+              size={24}
+              color={colors.textPrimary}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Weather"
+        component={WeatherScreen}
+        options={{
+          tabBarLabel: "Weather",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="cloud-outline"
               size={24}
               color={colors.textPrimary}
             />
