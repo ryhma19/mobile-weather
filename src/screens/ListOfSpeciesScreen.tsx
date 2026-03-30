@@ -1,7 +1,16 @@
 import React from 'react'
-import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+} from 'react-native'
 import { colors } from '../theme/colors'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { searchSpecies, SpeciesItem } from '../services/species'
 
 type ListOfSpeciesScreenProps = {
   // callback jolla palataan takaisin pääsivulle.
@@ -32,6 +41,31 @@ export default function ListOfSpeciesScreen({
 
   // Hakukentän tila 
   const [searchText, setSearchText] = React.useState('')
+  const [species, setSpecies] = React.useState<SpeciesItem[]>([])
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState('')
+
+  const handleSearchChange = async (text: string) => {
+    setSearchText(text)
+
+    if (!text.trim()) {
+      setSpecies([])
+      setError('')
+      return
+    }
+
+    try {
+      setLoading(true)
+      setError('')
+      const data = await searchSpecies(text)
+      setSpecies(data)
+    } catch (err) {
+      setError('Failed to load species.')
+      setSpecies([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <View
@@ -51,23 +85,60 @@ export default function ListOfSpeciesScreen({
           placeholder="Search species by name"
           placeholderTextColor={colors.textSecondary}
           value={searchText}
-          onChangeText={setSearchText}
+          onChangeText={handleSearchChange}
         />
 
-        <View style={styles.cardsContainer}>
-          <SpeciesCard
-            title="Animals"
-            description="Placeholder card for browsing animal species."
+        {loading && <ActivityIndicator style={styles.loader} color={colors.textPrimary} />}
+
+        {!!error && <Text style={styles.errorText}>{error}</Text>}
+
+        {!searchText.trim() ? (
+          <View style={styles.cardsContainer}>
+            <SpeciesCard
+              title="Fish"
+              description="fishes"
+            />
+            <SpeciesCard
+              title="Animals"
+              description="Placeholder card for browsing animal species."
+            />
+            <SpeciesCard
+              title="Plants"
+              description="Placeholder card for browsing plant species."
+            />
+            <SpeciesCard
+              title="Mushrooms"
+              description="Placeholder card for browsing mushroom species."
+            />
+          </View>
+        ) : (
+          <FlatList
+            data={species}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.listContent}
+            renderItem={({ item }) => (
+              <View style={styles.speciesCard}>
+                <View style={styles.speciesCardHeader}>
+                  <Text style={styles.speciesCardTitle}>
+                    {item.finnishName || item.scientificName}
+                  </Text>
+                </View>
+                <Text style={styles.speciesCardDescription}>
+                  {item.scientificName}
+                </Text>
+                {!!item.taxonRank && (
+                  <Text style={styles.speciesCardMeta}>{item.taxonRank}</Text>
+                )}
+              </View>
+            )}
+            ListEmptyComponent={
+              !loading ? (
+                <Text style={styles.emptyText}>No species found.</Text>
+              ) : null
+            }
           />
-          <SpeciesCard
-            title="Plants"
-            description="Placeholder card for browsing plant species."
-          />
-          <SpeciesCard
-            title="Mushrooms"
-            description="Placeholder card for browsing mushroom species."
-          />
-        </View>
+        )}
       </View>
     </View>
   )
@@ -120,8 +191,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
   },
+  loader: {
+    marginBottom: 16,
+  },
+  errorText: {
+    color: '#ffb3b3',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
   cardsContainer: {
     gap: 12,
+  },
+  listContent: {
+    paddingBottom: 24,
   },
   speciesCard: {
     backgroundColor: colors.cardDark,
@@ -131,6 +213,7 @@ const styles = StyleSheet.create({
     borderColor: colors.outline,
     minHeight: 110,
     justifyContent: 'center',
+    marginBottom: 12,
   },
   speciesCardHeader: {
     flexDirection: 'row',
@@ -151,5 +234,16 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     fontSize: 14,
     lineHeight: 20,
+  },
+  speciesCardMeta: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    marginTop: 8,
+  },
+  emptyText: {
+    color: colors.textSecondary,
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 20,
   },
 })
