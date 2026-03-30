@@ -14,6 +14,7 @@ export default function MapScreen() {
   const [locationError, setLocationError] = useState<string | null>(null);
 
   useEffect(() => {
+    
     let subscription: Location.LocationSubscription | null = null;
 
     async function startTracking() {
@@ -23,7 +24,7 @@ export default function MapScreen() {
         return;
       }
 
-      // Get an immediate fix
+      // Haetaan ensin käyttäjän nykyinen sijainti, jotta kartta voidaan keskittää oikein.
       const initial = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       });
@@ -38,7 +39,7 @@ export default function MapScreen() {
         500
       );
 
-      // Then watch for updates
+      // päivitetään käyttäjän sijaintia reaaliajassa
       subscription = await Location.watchPositionAsync(
         { accuracy: Location.Accuracy.High, distanceInterval: 10 },
         (loc) => setUserLocation(loc)
@@ -49,6 +50,7 @@ export default function MapScreen() {
     return () => { subscription?.remove(); };
   }, []);
 
+  // Keskittää kartan käyttäjän nykyiseen sijaintiin, kun painetaan sijaintipainiketta.
   function centerOnUser() {
     if (userLocation) {
       mapRef.current?.animateToRegion(
@@ -104,6 +106,7 @@ export default function MapScreen() {
             showsUserLocation={true}
             showsMyLocationButton={false}
           >
+          
             <UrlTile
               urlTemplate={MML_BACKGROUND_TILE_URL}
               maximumZ={16}
