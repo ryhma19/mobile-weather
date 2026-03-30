@@ -8,7 +8,13 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "plugins": [
-      "@maplibre/maplibre-react-native"
+      "@maplibre/maplibre-react-native",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow OutdoorMaps to use your location."
+        }
+      ]
     ],
     "splash": {
       "image": "./assets/splash-icon.png",

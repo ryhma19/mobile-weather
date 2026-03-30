@@ -1,13 +1,67 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { UrlTile } from "react-native-maps";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import * as Location from "expo-location";
 import { colors } from "../theme/colors";
 import { INITIAL_REGION, MML_BACKGROUND_TILE_URL } from "../constants/map";
 
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
+  const mapRef = useRef<MapView>(null);
+  const [userLocation, setUserLocation] = useState<Location.LocationObject | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let subscription: Location.LocationSubscription | null = null;
+
+    async function startTracking() {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setLocationError("Location permission denied");
+        return;
+      }
+
+      // Get an immediate fix
+      const initial = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High,
+      });
+      setUserLocation(initial);
+      mapRef.current?.animateToRegion(
+        {
+          latitude: initial.coords.latitude,
+          longitude: initial.coords.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        },
+        500
+      );
+
+      // Then watch for updates
+      subscription = await Location.watchPositionAsync(
+        { accuracy: Location.Accuracy.High, distanceInterval: 10 },
+        (loc) => setUserLocation(loc)
+      );
+    }
+
+    startTracking();
+    return () => { subscription?.remove(); };
+  }, []);
+
+  function centerOnUser() {
+    if (userLocation) {
+      mapRef.current?.animateToRegion(
+        {
+          latitude: userLocation.coords.latitude,
+          longitude: userLocation.coords.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        },
+        500
+      );
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -24,7 +78,7 @@ export default function MapScreen() {
             <Text style={styles.searchButtonText}>Search city</Text>
           </Pressable>
 
-          <Pressable style={styles.locationButton}>
+          <Pressable style={styles.locationButton} onPress={centerOnUser}>
             <MaterialCommunityIcons
               name="crosshairs-gps"
               size={22}
@@ -34,13 +88,21 @@ export default function MapScreen() {
         </View>
 
         <View style={styles.mapCard}>
+          {locationError && (
+            <View style={styles.errorBanner}>
+              <Text style={styles.errorText}>{locationError}</Text>
+            </View>
+          )}
           <MapView
+            ref={mapRef}
             style={styles.map}
             initialRegion={INITIAL_REGION}
             mapType={Platform.OS === "android" ? "none" : "standard"}
             rotateEnabled={false}
             pitchEnabled={false}
             toolbarEnabled={false}
+            showsUserLocation={true}
+            showsMyLocationButton={false}
           >
             <UrlTile
               urlTemplate={MML_BACKGROUND_TILE_URL}
@@ -114,6 +176,21 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  errorBanner: {
+    position: "absolute",
+    top: 12,
+    left: 12,
+    right: 12,
+    zIndex: 10,
+    backgroundColor: "#b00020",
+    borderRadius: 10,
+    padding: 10,
+  },
+  errorText: {
+    color: "#fff",
+    fontSize: 13,
+    textAlign: "center",
   },
   mapOverlayTop: {
     position: "absolute",
