@@ -13,6 +13,7 @@ import * as Location from "expo-location"
 import { colors } from "../theme/colors"
 import { fetchWeatherByCity, fetchWeatherByCoordinates } from "../services/weather"
 import { WeatherData } from "../types/weather"
+import { setupNotifications, sendTestWeatherNotification } from "../services/notifications"
 
 export default function WeatherScreen() {
   const insets = useSafeAreaInsets()
@@ -99,6 +100,25 @@ export default function WeatherScreen() {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function handleWeatherNotification() {
+    if (!weather) {
+      return
+    }
+
+    const granted = await setupNotifications()
+
+    if (!granted) {
+      return
+    }
+
+    const message =
+      `${weather.city}: ${weather.weatherLabel}, ` +
+      `${weather.temperature}°, precipitation ${weather.precipitation} mm, ` +
+      `wind ${weather.windSpeed} km/h`
+
+    await sendTestWeatherNotification(message)
   }
 
   useEffect(() => {
@@ -193,6 +213,15 @@ export default function WeatherScreen() {
                 ))}
               </View>
             </View>
+
+            <Pressable
+              style={styles.notificationButton}
+              onPress={handleWeatherNotification}
+            >
+              <Text style={styles.notificationButtonText}>
+                Send weather notification
+              </Text>
+            </Pressable>
           </>
         ) : null}
       </View>
@@ -379,6 +408,20 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: 16,
     fontWeight: "600",
+  },
+
+  notificationButton: {
+    marginTop: 20,
+    backgroundColor: colors.accent,
+    borderRadius: 16,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notificationButtonText: {
+    color: "#17396D",
+    fontWeight: "700",
+    fontSize: 15,
   },
 
   bottomSpacer: {
