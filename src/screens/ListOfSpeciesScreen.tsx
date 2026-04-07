@@ -1,20 +1,9 @@
 import React from 'react'
-import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-} from 'react-native'
-import { colors } from '../theme/colors'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import {
-  getSpeciesByCategory,
-  searchSpecies,
-  SpeciesItem,
-} from '../services/species'
+import {ActivityIndicator,  FlatList, Pressable, StyleSheet, Text, View, TextInput,} from 'react-native'
+import {colors} from '../theme/colors'
+import {useSafeAreaInsets} from 'react-native-safe-area-context'
+import {getSpeciesByCategory, searchSpecies, SpeciesItem,} from '../services/species'
+import endangermentMap from '../../assets/endangerment.json'
 
 type ListOfSpeciesScreenProps = {
   // callback jolla palataan takaisin pääsivulle.
@@ -31,6 +20,19 @@ type CategoryItem = {
   key: 'fish' | 'mammals' | 'birds' | 'mushrooms' | 'plants'
   title: string
   description: string
+}
+
+type SortMode = 'az' | 'za' | 'endangerment'
+
+const ENDANGERMENT_PRIORITY: Record<string, number> = {
+  RE: 7,
+  CR: 6,
+  EN: 5,
+  VU: 4,
+  NT: 3,
+  LC: 2,
+  DD: 1,
+  NA: 0,
 }
 
 function SpeciesCard({ title, description, onPress }: SpeciesCardProps) {
@@ -58,6 +60,7 @@ export default function ListOfSpeciesScreen({
   const [selectedCategory, setSelectedCategory] = React.useState<
     'fish' | 'mammals' | 'birds' | 'mushrooms' | 'plants' | null
   >(null)
+  const [sortMode, setSortMode] = React.useState<SortMode>('az')
 
   const categoryData: CategoryItem[] = [
     {
@@ -135,7 +138,49 @@ export default function ListOfSpeciesScreen({
     setError('')
   }
 
+  const toggleSort = () => {
+    setSortMode((prev) => {
+      if (prev === 'az') return 'za'
+      if (prev === 'za') return 'endangerment'
+      return 'az'
+    })
+  }
+
+  const sortedSpecies = [...species].sort((a, b) => {
+    const nameA = (a.finnishName || a.scientificName).toLowerCase()
+    const nameB = (b.finnishName || b.scientificName).toLowerCase()
+
+    if (sortMode === 'az') {
+      return nameA.localeCompare(nameB)
+    }
+
+    if (sortMode === 'za') {
+      return nameB.localeCompare(nameA)
+    }
+
+    const codeA =
+      endangermentMap[a.scientificName as keyof typeof endangermentMap] || 'NA'
+    const codeB =
+      endangermentMap[b.scientificName as keyof typeof endangermentMap] || 'NA'
+
+    const rankA = ENDANGERMENT_PRIORITY[codeA] ?? 0
+    const rankB = ENDANGERMENT_PRIORITY[codeB] ?? 0
+
+    if (rankA !== rankB) {
+      return rankB - rankA
+    }
+
+    return nameA.localeCompare(nameB)
+  })
+
   const showCards = !searchText.trim() && !selectedCategory
+
+  const sortLabel =
+    sortMode === 'az'
+      ? 'A-Z'
+      : sortMode === 'za'
+      ? 'Z-A'
+      : 'Endangerment'
 
   return (
     <View
@@ -166,6 +211,14 @@ export default function ListOfSpeciesScreen({
           </Pressable>
         )}
 
+        {!showCards && species.length > 0 && (
+          <Pressable style={styles.sortButton} onPress={toggleSort}>
+            <Text style={styles.sortButtonText}>
+              Sort: {sortLabel}
+            </Text>
+          </Pressable>
+        )}
+
         {loading && <ActivityIndicator style={styles.loader} color={colors.textPrimary} />}
 
         {!!error && <Text style={styles.errorText}>{error}</Text>}
@@ -186,7 +239,7 @@ export default function ListOfSpeciesScreen({
           />
         ) : (
           <FlatList
-            data={species}
+            data={sortedSpecies}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.listContent}
@@ -199,6 +252,9 @@ export default function ListOfSpeciesScreen({
                 </View>
                 <Text style={styles.speciesCardDescription}>
                   {item.scientificName}
+                </Text>
+                <Text style={styles.speciesCardMeta}>
+                  Endangerment: {endangermentMap[item.scientificName as keyof typeof endangermentMap] || 'NA'}
                 </Text>
                 {!!item.taxonRank && (
                   <Text style={styles.speciesCardMeta}>{item.taxonRank}</Text>
@@ -261,6 +317,21 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   categoryBadgeText: {
+    color: colors.textPrimary,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  sortButton: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.surfaceVariant,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.outline,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginBottom: 12,
+  },
+  sortButtonText: {
     color: colors.textPrimary,
     fontSize: 14,
     fontWeight: '600',
