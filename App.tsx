@@ -9,6 +9,7 @@ import BottomNav from './src/navigation/BottomNav'
 import AuthStack from './src/navigation/AuthStack'
 import { setupNotifications } from './src/services/notifications'
 import { auth } from './src/services/firebase'
+import { WeatherSettingsProvider } from './src/context/WeatherSettingsContext'
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null)
@@ -33,10 +34,12 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar style="light" />
-        {user ? <BottomNav /> : <AuthStack />}
-      </NavigationContainer>
+      <WeatherSettingsProvider>
+        <NavigationContainer>
+          <StatusBar style="light" />
+          {user ? <BottomNav /> : <AuthStack />}
+        </NavigationContainer>
+      </WeatherSettingsProvider>
     </SafeAreaProvider>
   )
 }

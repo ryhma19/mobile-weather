@@ -15,6 +15,8 @@ import Entypo from "@expo/vector-icons/Entypo"
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons"
 import Ionicons from "@expo/vector-icons/Ionicons"
 import WeatherScreen from "../screens/WeatherScreen"
+import PlantDetectionScreen from "../screens/PlantDetectionScreen"
+import SettingsScreen from "../screens/SettingsScreen"
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
 
@@ -26,7 +28,12 @@ function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const iconColor = isMapScreen ? "#000" : colors.textSecondary
   const activeIconColor = isMapScreen ? "#000" : colors.textPrimary
 
-  const tabItems = state.routes.map((route, index) => {
+  const visibleRoutes = state.routes.filter(
+    (route) => route.name !== "Weather" && route.name !== "Detect"
+  )
+
+  const tabItems = visibleRoutes.map((route) => {
+    const index = state.routes.findIndex((item) => item.key === route.key)
     const { options } = descriptors[route.key]
     const isFocused = state.index === index
     const label =
@@ -187,12 +194,32 @@ export default function BottomNav() {
         }}
       />
       <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Weather"
         component={WeatherScreen}
         options={{
           tabBarLabel: "Weather",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="cloud-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Detect"
+        component={PlantDetectionScreen}
+        options={{
+          tabBarLabel: "Detect",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="camera-outline" size={size} color={color} />
           ),
         }}
       />

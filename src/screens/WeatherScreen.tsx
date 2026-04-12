@@ -14,9 +14,27 @@ import { colors } from "../theme/colors"
 import { fetchWeatherByCity, fetchWeatherByCoordinates } from "../services/weather"
 import { WeatherData } from "../types/weather"
 import { setupNotifications, sendTestWeatherNotification } from "../services/notifications"
+import { useWeatherSettings } from "../context/WeatherSettingsContext"
+
+function formatTemperature(value: number, unit: "Celsius" | "Fahrenheit") {
+  if (unit === "Fahrenheit") {
+    return `${Math.round((value * 9) / 5 + 32)}°`
+  }
+
+  return `${Math.round(value)}°`
+}
+
+function formatWindSpeed(value: number, unit: "m/s" | "km/h") {
+  if (unit === "m/s") {
+    return `${(value / 3.6).toFixed(1)} m/s`
+  }
+
+  return `${Math.round(value)} km/h`
+}
 
 export default function WeatherScreen() {
   const insets = useSafeAreaInsets()
+  const { temperatureUnit, windUnit } = useWeatherSettings()
 
   const [searchText, setSearchText] = useState("")
   const [weather, setWeather] = useState<WeatherData | null>(null)
@@ -115,8 +133,8 @@ export default function WeatherScreen() {
 
     const message =
       `${weather.city}: ${weather.weatherLabel}, ` +
-      `${weather.temperature}°, precipitation ${weather.precipitation} mm, ` +
-      `wind ${weather.windSpeed} km/h`
+      `${formatTemperature(weather.temperature, temperatureUnit)}, precipitation ${weather.precipitation} mm, ` +
+      `wind ${formatWindSpeed(weather.windSpeed, windUnit)}`
 
     await sendTestWeatherNotification(message)
   }
@@ -132,6 +150,7 @@ export default function WeatherScreen() {
         styles.content,
         {
           paddingTop: insets.top + 12,
+          paddingBottom: 60,
         },
       ]}
       showsVerticalScrollIndicator={false}
@@ -181,16 +200,20 @@ export default function WeatherScreen() {
               <View>
                 <Text style={styles.weatherLabel}>{weather.weatherLabel}</Text>
                 <Text style={styles.feelsLike}>
-                  Feels like {weather.feelsLike}°
+                  Feels like {formatTemperature(weather.feelsLike, temperatureUnit)}
                 </Text>
               </View>
-              <Text style={styles.temperature}>{weather.temperature}°</Text>
+              <Text style={styles.temperature}>
+                {formatTemperature(weather.temperature, temperatureUnit)}
+              </Text>
             </View>
 
             <View style={styles.detailsGrid}>
               <View style={styles.detailCard}>
                 <Text style={styles.detailTitle}>Wind</Text>
-                <Text style={styles.detailValue}>{weather.windSpeed} km/h</Text>
+                <Text style={styles.detailValue}>
+                  {formatWindSpeed(weather.windSpeed, windUnit)}
+                </Text>
               </View>
 
               <View style={styles.detailCard}>
@@ -208,7 +231,9 @@ export default function WeatherScreen() {
                 {weather.hourly.map((item, index) => (
                   <View key={`${item.time}-${index}`} style={styles.hourItem}>
                     <Text style={styles.hourText}>{item.time}</Text>
-                    <Text style={styles.hourTemp}>{item.temperature}°</Text>
+                    <Text style={styles.hourTemp}>
+                      {formatTemperature(item.temperature, temperatureUnit)}
+                    </Text>
                   </View>
                 ))}
               </View>
