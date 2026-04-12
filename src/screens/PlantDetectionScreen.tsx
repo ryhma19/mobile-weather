@@ -61,7 +61,7 @@ export default function PlantDetectionScreen() {
       }
 
       const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ["images"],
         quality: 0.8,
         allowsEditing: false,
       })
@@ -76,6 +76,39 @@ export default function PlantDetectionScreen() {
       setSavedImageUri(localUri)
     } catch (err) {
       setError("Failed to take photo")
+    }
+  }
+
+  async function handleChooseImage() {
+    try {
+      setError("")
+      setResults([])
+      setBestMatch("")
+      setRemainingRequests(null)
+
+      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+      if (!permission.granted) {
+        Alert.alert("Gallery permission needed", "Please allow gallery access.")
+        return
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        quality: 0.8,
+        allowsEditing: false,
+      })
+
+      if (result.canceled || !result.assets || result.assets.length === 0) {
+        return
+      }
+
+      const originalUri = result.assets[0].uri
+      const localUri = await saveImageToApp(originalUri)
+
+      setSavedImageUri(localUri)
+    } catch (err) {
+      setError("Failed to choose image")
     }
   }
 
@@ -137,10 +170,25 @@ export default function PlantDetectionScreen() {
 
         <View style={styles.buttonRow}>
           <Pressable style={styles.primaryButton} onPress={handleTakePhoto}>
-            <Ionicons name="camera-outline" size={20} color={colors.background} />
-            <Text style={styles.primaryButtonText}>Take photo</Text>
+            <View style={styles.primaryButtonContent}>
+              <View style={styles.iconBox}>
+                <Ionicons name="camera-outline" size={20} color={colors.background} />
+              </View>
+              <Text style={styles.primaryButtonText}>Take photo</Text>
+            </View>
           </Pressable>
 
+          <Pressable style={styles.primaryButton} onPress={handleChooseImage}>
+            <View style={styles.primaryButtonContent}>
+              <View style={styles.iconBox}>
+                <Ionicons name="images-outline" size={20} color={colors.background} />
+              </View>
+              <Text style={styles.primaryButtonText}>Choose image</Text>
+            </View>
+          </Pressable>
+        </View>
+
+        <View style={styles.clearRow}>
           <Pressable style={styles.secondaryButton} onPress={handleClear}>
             <Text style={styles.secondaryButtonText}>Clear</Text>
           </Pressable>
@@ -167,10 +215,14 @@ export default function PlantDetectionScreen() {
           onPress={handleAnalyzePhoto}
           disabled={!savedImageUri || loading}
         >
-          <Ionicons name="leaf-outline" size={20} color={colors.background} />
-          <Text style={styles.primaryButtonText}>
-            {loading ? "Analyzing..." : "Analyze image"}
-          </Text>
+          <View style={styles.primaryButtonContent}>
+            <View style={styles.iconBox}>
+              <Ionicons name="leaf-outline" size={20} color={colors.background} />
+            </View>
+            <Text style={styles.primaryButtonText}>
+              {loading ? "Analyzing..." : "Analyze image"}
+            </Text>
+          </View>
         </Pressable>
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
@@ -256,24 +308,40 @@ const styles = StyleSheet.create({
 
   buttonRow: {
     flexDirection: "row",
-    gap: 12,
+    gap: 10,
+  },
+
+  clearRow: {
+    marginTop: 10,
   },
 
   primaryButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
+    flex: 1,
     minHeight: 52,
     borderRadius: 18,
     backgroundColor: colors.accent,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
+    justifyContent: "center",
+  },
+
+  primaryButtonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  iconBox: {
+    width: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
   },
 
   primaryButtonText: {
     color: colors.background,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   secondaryButton: {
@@ -284,7 +352,8 @@ const styles = StyleSheet.create({
     borderColor: colors.outline,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
+    width: "100%",
   },
 
   secondaryButtonText: {
