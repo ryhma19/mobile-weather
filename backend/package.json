@@ -10,11 +10,13 @@
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",
-    "express": "^4.22.1"
+    "express": "^4.22.1",
+    "he": "^1.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.6",
+    "@types/he": "^1.2.3",
     "@types/node": "^22.19.15",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",

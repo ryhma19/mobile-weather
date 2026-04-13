@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import he from 'he'
 dotenv.config()
 
 const app = express()
@@ -130,15 +131,13 @@ function getFirstImageUrl(mediaData: any): string {
 
 // Poistaa HTML-tagit tekstistä (API palauttaa <p>-tageja sisällössä)
 function stripHtml(html: string): string {
-  return html
-    .replace(/<\/p>\s*<p>/gi, '\n\n') 
-    .replace(/<br\s*\/?>/gi, '\n')     
-    .replace(/<[^>]+>/g, '')           
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .trim()
+  return he.decode(
+    html
+      .replace(/<\/p>\s*<p>/gi, '\n\n')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .trim()
+  )
 }
 
 // Parsii /taxa/{id}/descriptions vastauksen oikeaan muotoon.
