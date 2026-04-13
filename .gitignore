@@ -40,3 +40,5 @@ yarn-error.*
 /ios
 /android
 .env
+src/services/firebase.ts
+src/constants/plantnet.ts

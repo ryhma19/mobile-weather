@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import * as Location from "expo-location"
 import { fetchWeatherByCoordinates } from "../services/weather"
 import { WeatherData } from "../types/weather"
+import { useWeatherSettings } from "../context/WeatherSettingsContext"
 
 type SectionCardProps = {
   title: string
@@ -29,9 +30,18 @@ function SectionCard({ title, description, onPress }: SectionCardProps) {
   )
 }
 
+function formatTemperature(value: number, unit: "Celsius" | "Fahrenheit") {
+  if (unit === "Fahrenheit") {
+    return `${Math.round((value * 9) / 5 + 32)}°`
+  }
+
+  return `${Math.round(value)}°`
+}
+
 export default function OverviewScreen() {
   const insets = useSafeAreaInsets()
   const navigation = useNavigation<OverviewScreenNavigationProp>()
+  const { temperatureUnit } = useWeatherSettings()
   const [weather, setWeather] = useState<WeatherData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -109,11 +119,12 @@ export default function OverviewScreen() {
         styles.content,
         {
           paddingTop: insets.top + 12,
+          paddingBottom: 60,
         },
       ]}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.weatherCard}>
+      <Pressable style={styles.weatherCard} onPress={() => navigation.navigate("Weather")}>
         <View style={styles.locationRow}>
           <Text style={styles.location}>
             {weather ? weather.city : "Current location"}
@@ -137,11 +148,19 @@ export default function OverviewScreen() {
                 ? "Please wait"
                 : error
                   ? "Location or weather failed"
-                  : `Feels like ${weather?.feelsLike}°`}
+                  : weather
+                    ? `Feels like ${formatTemperature(weather.feelsLike, temperatureUnit)}`
+                    : "—"}
             </Text>
           </View>
           <Text style={styles.temperature}>
-            {loading ? "--°" : error ? "--°" : `${weather?.temperature}°`}
+            {loading
+              ? "--°"
+              : error
+                ? "--°"
+                : weather
+                  ? formatTemperature(weather.temperature, temperatureUnit)
+                  : "--°"}
           </Text>
         </View>
 
@@ -156,33 +175,31 @@ export default function OverviewScreen() {
             : weather.hourly.map((item, index) => (
                 <View key={`${item.time}-${index}`} style={styles.hourItem}>
                   <Text style={styles.hourText}>{item.time}</Text>
-                  <Text style={styles.hourTemp}>{item.temperature}°</Text>
+                  <Text style={styles.hourTemp}>
+                    {formatTemperature(item.temperature, temperatureUnit)}
+                  </Text>
                 </View>
               ))}
         </View>
-      </View>
+      </Pressable>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Explore</Text>
 
         <SectionCard
           title="Map overview"
-          description="Opens the main outdoor map with detailed views of the terrain?"
+          description="Opens the outdoor map view with detailed views of the terrain"
           onPress={() => navigation.navigate("Map")}
         />
         <SectionCard
+          title="Camera Plant detection"
+          description="Take a photo and detect plants or berries with the camera"
+          onPress={() => navigation.navigate("Detect")}
+        />
+        <SectionCard
           title="List of species"
-          description="Browse all recorded plant, berry, animals"
+          description="Browse all recorded plant, berries and animals"
           onPress={() => navigation.navigate("Species")}
-        />
-        <SectionCard
-          title="Nature observations"
-          description="For browsing the plant, berries and fish data? User added information? Plant detection using camera?"
-        />
-        <SectionCard
-          title="Weather details"
-          description="See the full forecast, hourly conditions and weather in more detail?"
-          onPress={() => navigation.navigate("Weather")}
         />
       </View>
 
@@ -206,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceVariant,
     borderWidth: 1,
     borderColor: colors.outline,
-    marginBottom: 24,
+    marginBottom: 12,
     minHeight: 250,
     justifyContent: "space-between",
   },

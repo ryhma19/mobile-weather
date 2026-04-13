@@ -238,6 +238,7 @@ export default function ListOfSpeciesScreen({
         styles.container,
         {
           paddingTop: insets.top + 12,
+          paddingBottom: 60,
         },
       ]}
     >
