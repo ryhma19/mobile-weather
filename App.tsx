@@ -20,11 +20,11 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser: User | null) => {
       setUser(currentUser)
       setAuthLoading(false)
     })
-
+  
     return unsubscribe
   }, [])
 
