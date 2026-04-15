@@ -4,10 +4,15 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { auth } from "../services/firebase"
 import { logoutUser } from "../services/auth"
 import { colors } from "../theme/colors"
+import * as ImagePicker from "expo-image-picker"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { Image } from "react-native"
+import { useEffect, useState } from "react"
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets()
   const user = auth.currentUser
+  const [imageUri, setImageUri] = useState<string | null>(null)
 
   async function handleLogout() {
     try {
@@ -16,6 +21,30 @@ export default function ProfileScreen() {
       Alert.alert("Logout failed", error.message || "Could not log out")
     }
   }
+  useEffect(() => {
+  loadProfileImage()
+}, [])
+async function loadProfileImage() {
+  const saved = await AsyncStorage.getItem("profileImage")
+  if (saved) {
+    setImageUri(saved)
+  }
+}
+async function pickImage() {
+  const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
+  if (!permission.granted) {
+    return
+  }
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    quality: 0.7,
+  })
+  if (!result.canceled) {
+    const uri = result.assets[0].uri
+    setImageUri(uri)
+    await AsyncStorage.setItem("profileImage", uri)
+  }
+}
 
   return (
     <ScrollView
@@ -29,8 +58,19 @@ export default function ProfileScreen() {
       ]}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.screenTitle}>Profile</Text>
-
+        <Text style={styles.screenTitle}>Profile</Text>
+    <View style={styles.profileImageContainer}>
+     {imageUri ? (
+     <Image source={{ uri: imageUri }} style={styles.profileImage} />
+    ) : (
+     <View style={styles.profilePlaceholder}>
+         <Text style={styles.profilePlaceholderText}>No image</Text>
+        </View>
+    )}
+    <Pressable style={styles.imageButton} onPress={pickImage}>
+        <Text style={styles.imageButtonText}>Change picture</Text>
+    </Pressable>
+    </View>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Account</Text>
         <Text style={styles.cardText}>
@@ -111,4 +151,41 @@ const styles = StyleSheet.create({
   bottomSpacer: {
     height: 24,
   },
+  profileImageContainer: {
+  alignItems: "center",
+  marginBottom: 20,
+},
+
+profileImage: {
+  width: 120,
+  height: 120,
+  borderRadius: 60,
+  marginBottom: 10,
+},
+
+profilePlaceholder: {
+  width: 120,
+  height: 120,
+  borderRadius: 60,
+  backgroundColor: colors.surface,
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: 10,
+},
+
+profilePlaceholderText: {
+  color: colors.textSecondary,
+},
+
+imageButton: {
+  backgroundColor: colors.accent,
+  borderRadius: 12,
+  paddingHorizontal: 14,
+  paddingVertical: 8,
+},
+
+imageButtonText: {
+  color: colors.background,
+  fontWeight: "600",
+},
 })
