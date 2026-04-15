@@ -42,6 +42,4 @@ yarn-error.*
 .env
 
 # specific files
-firebase.ts
-src/services/firebase.ts
 src/constants/plantnet.ts
