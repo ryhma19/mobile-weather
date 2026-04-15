@@ -5,4 +5,5 @@ export type RootTabParamList = {
   Settings: undefined
   Weather: undefined
   Detect: undefined
+  Profile: undefined
 }

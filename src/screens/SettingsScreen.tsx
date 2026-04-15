@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { ScrollView, StyleSheet, Text, View, Pressable } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { useNavigation } from "@react-navigation/native"
 import { colors } from "../theme/colors"
 import { useWeatherSettings } from "../context/WeatherSettingsContext"
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets()
+  const navigation = useNavigation<any>()
   const [weatherOpen, setWeatherOpen] = useState(false)
   const {
     temperatureUnit,
@@ -133,12 +135,15 @@ export default function SettingsScreen() {
         </Text>
       </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Profile</Text>
-        <Text style={styles.cardText}>
-          Profile settings here?
-        </Text>
-      </View>
+      <Pressable
+  style={styles.card}
+  onPress={() => navigation.navigate("Profile")}
+>
+  <Text style={styles.cardTitle}>Profile</Text>
+  <Text style={styles.cardText}>
+    Profile settings
+  </Text>
+</Pressable>
 
       <View style={styles.bottomSpacer} />
     </ScrollView>

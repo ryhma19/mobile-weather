@@ -17,6 +17,7 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 import WeatherScreen from "../screens/WeatherScreen"
 import PlantDetectionScreen from "../screens/PlantDetectionScreen"
 import SettingsScreen from "../screens/SettingsScreen"
+import ProfileScreen from "../screens/ProfileScreen"
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
 
@@ -29,7 +30,10 @@ function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const activeIconColor = isMapScreen ? "#000" : colors.textPrimary
 
   const visibleRoutes = state.routes.filter(
-    (route) => route.name !== "Weather" && route.name !== "Detect"
+    (route) =>
+      route.name !== "Weather" &&
+      route.name !== "Detect" &&
+      route.name !== "Profile"
   )
 
   const tabItems = visibleRoutes.map((route) => {
@@ -220,6 +224,16 @@ export default function BottomNav() {
           tabBarLabel: "Detect",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="camera-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" size={size} color={color} />
           ),
         }}
       />
