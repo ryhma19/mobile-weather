@@ -31,16 +31,33 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
-type Category = 'fish' | 'mammals' | 'birds' | 'mushrooms' | 'plants'
+type Category = string
 type SortMode = 'relevance' | 'az' | 'za' | 'endangerment'
 
-const CATEGORY_DATA: { key: Category; title: string }[] = [
-  { key: 'fish', title: 'Fish' },
-  { key: 'mammals', title: 'Mammals' },
-  { key: 'birds', title: 'Birds' },
-  { key: 'mushrooms', title: 'Mushrooms' },
-  { key: 'plants', title: 'Plants' },
+type CategoryGroup = {
+  mvlId: string
+  titleFi: string
+  title: string
+}
+
+const CATEGORY_DATA: CategoryGroup[] = [
+  { mvlId: 'MVL.1',   title: 'Birds',               titleFi: 'Linnut' },
+  { mvlId: 'MVL.2',   title: 'Mammals',              titleFi: 'Nisäkkäät' },
+  { mvlId: 'MVL.22',  title: 'Algae',                titleFi: 'Levät' },
+  { mvlId: 'MVL.23',  title: 'Mosses',               titleFi: 'Sammalet' },
+  { mvlId: 'MVL.232', title: 'Insects & Arachnids',  titleFi: 'Hyönteiset ja hämähäkkieläimet' },
+  { mvlId: 'MVL.233', title: 'Fungi & Lichens',       titleFi: 'Sienet ja jäkälät' },
+  { mvlId: 'MVL.26',  title: 'Reptiles & Amphibians', titleFi: 'Matelijat ja sammakkoeläimet' },
+  { mvlId: 'MVL.27',  title: 'Fish',                 titleFi: 'Kalat' },
+  { mvlId: 'MVL.28',  title: 'Worms',                titleFi: 'Madot' },
+  { mvlId: 'MVL.343', title: 'Vascular Plants',       titleFi: 'Putkilokasvit' },
+  { mvlId: 'MVL.37',  title: 'Myriapods',             titleFi: 'Tuhatjalkaiset' },
+  { mvlId: 'MVL.39',  title: 'Crustaceans',           titleFi: 'Äyriäiset' },
+  { mvlId: 'MVL.40',  title: 'Molluscs',              titleFi: 'Nilviäiset' },
+  { mvlId: 'MVL.41',  title: 'Other Organisms',       titleFi: 'Muut organismit' },
 ]
+
+const FOREIGN_KEY = 'FOREIGN'
 
 const ENDANGERMENT_PRIORITY: Record<string, number> = {
   RE: 7, CR: 6, EN: 5, VU: 4, NT: 3, LC: 2, DD: 1, NA: 0,
@@ -101,7 +118,6 @@ function EndangermentBadge({ scientificName }: { scientificName: string }) {
       </Pressable>
       {showPopup && (
         <View style={styles.badgePopup}>
-          {/* speech bubble tail */}
           <View style={styles.badgePopupTail} />
           <Text style={styles.badgePopupEn}>{desc.en}</Text>
           <Text style={styles.badgePopupFi}>{desc.fi}</Text>
@@ -176,7 +192,26 @@ export default function ListOfSpeciesScreen() {
     try {
       setLoading(true)
       setError('')
-      setSpecies(await getSpeciesByCategory(category))
+      if (category === FOREIGN_KEY) {
+       
+        const allMvlIds = CATEGORY_DATA.map(c => c.mvlId)
+        const results = await Promise.all(
+          allMvlIds.map(id =>
+            fetch(`http://10.0.2.2:3001/species/category/${encodeURIComponent(id)}/foreign`)
+              .then(r => r.json())
+              .catch(() => [])
+          )
+        )
+        const seen = new Set<string>()
+        const combined = results.flat().filter(s => {
+          if (seen.has(s.id)) return false
+          seen.add(s.id)
+          return true
+        })
+        setSpecies(combined)
+      } else {
+        setSpecies(await getSpeciesByCategory(category as any))
+      }
     } catch {
       setError('Failed to load species.')
       setSpecies([])
@@ -248,7 +283,6 @@ export default function ListOfSpeciesScreen() {
 
   const showCategories = !searchText.trim() && !selectedCategory
 
-  // ── Detail view ──────────────────────────────────────────────
   if (selectedSpecies || detailLoading || detailError) {
     return (
       <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
@@ -261,7 +295,7 @@ export default function ListOfSpeciesScreen() {
           {!!detailError && <Text style={styles.errorText}>{detailError}</Text>}
 
           {!!selectedSpecies && (
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}>
               <View style={styles.detailCard}>
                 {!!selectedSpecies.imageUrl && (
                   <Image
@@ -309,7 +343,6 @@ export default function ListOfSpeciesScreen() {
     )
   }
 
-  // ── List / category view ──────────────────────────────────────
   return (
     <View style={[styles.container, { paddingTop: insets.top + 12, paddingBottom: 60 }]}>
       <View style={styles.content}>
@@ -325,7 +358,11 @@ export default function ListOfSpeciesScreen() {
 
         {!!selectedCategory && (
           <Pressable style={styles.categoryBadge} onPress={clearAll}>
-            <Text style={styles.categoryBadgeText}>{selectedCategory} ×</Text>
+            <Text style={styles.categoryBadgeText}>
+              {selectedCategory === FOREIGN_KEY
+                ? 'Muut lajit ×'
+                : `${CATEGORY_DATA.find(c => c.mvlId === selectedCategory)?.titleFi ?? selectedCategory} ×`}
+            </Text>
           </Pressable>
         )}
 
@@ -352,13 +389,29 @@ export default function ListOfSpeciesScreen() {
         {showCategories ? (
           <FlatList
             data={CATEGORY_DATA}
-            keyExtractor={item => item.key}
+            keyExtractor={item => item.mvlId}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 120 }}
+            ListFooterComponent={
+              <Pressable style={styles.categoryGroup} onPress={() => fetchCategory(FOREIGN_KEY)}>
+                <View style={styles.categoryRow}>
+                  <View>
+                    <Text style={styles.categoryCardTitle}>Muut lajit</Text>
+                    <Text style={styles.categoryCardSubtitle}>Lajit jotka eivät esiinny Suomessa</Text>
+                  </View>
+                  <Text style={styles.categoryCardArrow}>→</Text>
+                </View>
+              </Pressable>
+            }
             renderItem={({ item }) => (
-              <Pressable style={styles.categoryCard} onPress={() => fetchCategory(item.key)}>
-                <Text style={styles.categoryCardTitle}>{item.title}</Text>
-                <Text style={styles.categoryCardArrow}>→</Text>
+              <Pressable style={styles.categoryGroup} onPress={() => fetchCategory(item.mvlId)}>
+                <View style={styles.categoryRow}>
+                  <View>
+                    <Text style={styles.categoryCardTitle}>{item.titleFi}</Text>
+                    <Text style={styles.categoryCardSubtitle}>{item.title}</Text>
+                  </View>
+                  <Text style={styles.categoryCardArrow}>→</Text>
+                </View>
               </Pressable>
             )}
           />
@@ -479,22 +532,29 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textAlign: 'center',
   },
-  // Category grid
-  categoryCard: {
+  categoryGroup: {
     backgroundColor: colors.cardDark,
     borderRadius: 24,
-    padding: 16,
     borderWidth: 1,
     borderColor: colors.outline,
     marginBottom: 12,
+  },
+  categoryRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
   categoryCardTitle: {
     color: colors.textPrimary,
     fontSize: 16,
     fontWeight: '700',
+  },
+  categoryCardSubtitle: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    marginTop: 2,
   },
   categoryCardArrow: {
     color: colors.textSecondary,
