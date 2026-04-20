@@ -1,0 +1,1960 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx
+version="1.0"
+creator="laavu.org"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://www.topografix.com/GPX/1/0" 
+xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+
+	<wpt lon="22.626141" lat="68.435432">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Jatuni LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="22.556589" lat="68.434792">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kaaresuvanto LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.698334" lat="68.491867">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kalmankaltio LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.13435" lat="68.408241">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Käkkälöjoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.66622" lat="68.3825">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ounasjärvi KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.2852" lat="68.310898">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Sotkajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.975109" lat="68.898041">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Akseli LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.082253" lat="69.394058">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Basisjavri KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="27.6506" lat="69.083542">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kotalahti LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="29.021233" lat="69.612297">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Lauttajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.415359" lat="68.453941">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Lutonsilta LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.326019" lat="68.80883">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Myössäjärvi TP</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.446051" lat="68.860283">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Nellim uittoränni LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.487961" lat="68.470711">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Palopäänoja KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="27.283117" lat="68.413536">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Pikku Harrijoki KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="28.955652" lat="69.595665">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Pikku Kirakkajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.81179" lat="68.939201">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Riutula LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.43902" lat="68.11013">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Sompiojärvi KO</name>
+		<cmt>myös laavu</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.571859" lat="65.657623">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Murhaniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.64209" lat="65.753578">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Rova LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.657261" lat="65.671677">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Satamakangas LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.51759" lat="65.786873">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Valmarinniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.54026" lat="65.787842">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Vallitunsaari LA</name>
+		<cmt>laavu myös saaren itärannalla</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.651649" lat="65.691223">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Veitsiluoto LA</name>
+		<cmt>toinen laavu puomin takana 200 m länteen</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.765249" lat="66.718872">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ala-Mikonjärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.781361" lat="66.521889">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Askanuopaja TP</name>
+		<cmt>Tulipaikka ja telttailuun sopivia paikkoja niemessä.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.050449" lat="66.906616">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Komiovaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.31748" lat="66.397133">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kotalahti LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.10495" lat="66.63781">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Tunturilampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.685923" lat="65.812126">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Hietalampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.081537" lat="65.922112">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Puukkokumpu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.111719" lat="65.941948">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Vihvilöjänkä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.758751" lat="67.678467">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Aakenusjoki KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.50028" lat="67.740021">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Aakenusjärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.734079" lat="67.338409">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Heikinvaaransarvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.390261" lat="67.723061">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Housulampi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.62174" lat="67.690201">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Jolhikko KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.44935" lat="67.725281">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kalliokoski KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.22769" lat="68.069603">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kapsajoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.85984" lat="67.800598">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Koillisrinteet KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.88312" lat="67.765717">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Levi poroerotus KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.955534" lat="67.162933">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Lohiniva LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.53525" lat="67.693108">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Niritsa KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.63521" lat="67.976318">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Perhejärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.72333" lat="67.350708">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Pitkälehdonoja KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.076136" lat="67.103401">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Porokari LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.565491" lat="67.50473">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Poroniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.572729" lat="67.647087">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ruokuma KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.673941" lat="67.64682">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ruottama KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.94202" lat="67.771988">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ryssänkoste LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.780951" lat="67.609253">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Sarvikota KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.81414" lat="67.805923">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Sirkka LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.811291" lat="67.268799">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Suukoski KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.871811" lat="67.799309">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Taalojärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.317329" lat="67.738922">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Tulivuoripuisto KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.611601" lat="67.746841">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Vuollajärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.32061" lat="67.499947">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ylläslompolo KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.472601" lat="68.299461">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Yrjänäjärvi TP</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.089899" lat="67.740089">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Äkäsmylly LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.897631" lat="68.103706">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Honkalahti KO</name>
+		<cmt>yksityinen?</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.224091" lat="68.052399">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Karannusmella KO</name>
+		<cmt>yksityinen?</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.70496" lat="67.322739">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kerpuanjärvi LA</name>
+		<cmt>yksityinen?</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.415051" lat="67.944946">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Seurujoki KO</name>
+		<cmt>yksityinen?</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.124889" lat="67.507423">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Luosun Pitkäjärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.366684" lat="67.694748">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Pyhäkota KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.80711" lat="67.366829">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Saaripudas LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.20266" lat="67.321327">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Venejärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.69136" lat="67.17263">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Jäkälälaki KO</name>
+		<cmt>myös näkötorni</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.442039" lat="67.461082">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Aareankoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.712379" lat="67.752831">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Iso-Akanjärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.24234" lat="68.181213">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kujerivaara KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.17528" lat="67.817619">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Laavijärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.1357" lat="68.250008">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Pahtaniva LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.195107" lat="68.001762">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Pallaslompolo KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.601471" lat="67.903893">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Äijäkoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.819469" lat="67.717041">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Särkijärvi TP</name>
+		<cmt>laavu vastarannalla</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.65794" lat="67.129791">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Käyläkkä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.399309" lat="67.031189">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Käyläkkä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.984209" lat="67.113327">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Rykimäkero KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.794689" lat="66.526253">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Huukinvuoma LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.936069" lat="66.88501">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Karttulanniva LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.816959" lat="66.9813">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kentänlahti KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.866383" lat="66.958069">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kienaja KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.89123" lat="66.907852">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Kosioniva LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.963461" lat="66.857201">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Lempeä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.391479" lat="66.829369">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Metelivaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.871149" lat="66.935081">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Naamisuvanto LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.937559" lat="66.943863">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Oranki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.888491" lat="66.928612">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Raijankangas LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.589809" lat="66.698128">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ropmakkajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.186483" lat="66.75502">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Salmilompolo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.472111" lat="66.028801">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Akanlahti LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.524759" lat="66.319588">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Ala-Outojärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.25206" lat="66.000648">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Hirsiniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.55131" lat="66.26265">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Julmajärvenoja KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="27.80744" lat="66.051437">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Lastenlampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.808029" lat="66.063881">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Latvajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.37808" lat="66.190041">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Meliininmännikkö LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.515368" lat="66.153236">
+		<time>2012-10-23T15:57:21Z</time>
+		<name>Piippukallio LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.30858" lat="65.796288">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Hömmönkoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.070709" lat="65.810242">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Keväjärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.87484" lat="65.929413">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kupusenniitty LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.32362" lat="66.104401">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Portimojärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.92651" lat="66.199471">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Putkivaaranlahti LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.861759" lat="66.090729">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Rahaseljänlampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.52895" lat="65.923111">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ranua LA</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="26.70706" lat="65.985008">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Sapilasvaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.42329" lat="66.015701">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Sarkakangas LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.895149" lat="65.879028">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Välivaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.27087" lat="66.058472">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Korvaniemi LA</name>
+		<cmt>kaivo</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.147091" lat="65.972252">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Taipaleenlahti LA</name>
+		<cmt>kaivo</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.32527" lat="66.150871">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ala-Voho LA</name>
+		<cmt>laavu myös tien toisella puolella</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.15955" lat="66.697739">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ahvenlampi R LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.6252" lat="66.476532">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Alakorkalo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.238783" lat="66.261047">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Auttijärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.20162" lat="66.288872">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Auttiköngäs LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.724661" lat="66.360603">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Hietaperä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.439316" lat="66.428665">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Hirvasoja LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.707029" lat="66.320396">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Hyypiä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.952467" lat="66.848885">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Isovaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.3585" lat="66.245781">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Jaatilasaari LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.104366" lat="66.322952">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Juhonkolo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.958017" lat="66.323883">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Juotasniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.470617" lat="66.438553">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Jussilanvaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.048401" lat="66.331749">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Karhakkamaa LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.458017" lat="66.755615">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kellosuvanto LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.067318" lat="66.45993">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kemilä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.802361" lat="67.084953">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kenttäpalo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.633867" lat="66.639084">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kieli LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.83058" lat="66.74881">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kiimalampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.735821" lat="66.47139">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kiirankangas LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.733879" lat="66.492683">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kirkonjyrhämä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.971016" lat="66.296471">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kivitaipale LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.181749" lat="66.262283">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Koivukivalo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.189171" lat="66.892967">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Korvalampi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.746382" lat="66.484024">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kukkaniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.387568" lat="66.597351">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kulukkusenvaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.696983" lat="66.565666">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kuninkaan LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.619469" lat="66.472015">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kuolajoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.56995" lat="66.463333">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kuolavaara LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.335066" lat="66.639053">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Lehtojärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.708929" lat="66.18911">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Louhikoski R LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.40645" lat="66.68663">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Luonuajoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.849567" lat="66.536568">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Luppo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.4352" lat="66.775482">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Marraskoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.180599" lat="66.224083">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Matalalampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.506889" lat="66.53833">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Mellavaara KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.376135" lat="66.906616">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Meltaus LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.688841" lat="66.176804">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Mettokoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.376316" lat="66.365669">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Muurola LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.929768" lat="67.046631">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Niesi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.475067" lat="66.408669">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Niilo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.631634" lat="66.444298">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Niskanperä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.226433" lat="66.609772">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Oitola LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.025049" lat="66.58242">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Olkkajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.743784" lat="66.520065">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ounaspaviljonki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.97188" lat="66.467369">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Paljukanlampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.468748" lat="66.86068">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Patakoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.861784" lat="66.346268">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Pekkala LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.921486" lat="66.303268">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Piittisjokisuu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.465139" lat="66.555466">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Pissinperä LA</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="26.569334" lat="66.469498">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Pulkkalampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.643833" lat="66.379814">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Puurosenranta LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.75388" lat="66.468361">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Pöykkölä LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.64064" lat="66.348259">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Sainkivalo LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.80591" lat="66.948669">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Saittajärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.466017" lat="66.645767">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Sinettajoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.483034" lat="66.646553">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Sinettajokisuu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.446301" lat="66.393417">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Tervakari LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.278334" lat="66.408882">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Tikkasenkari LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.267052" lat="66.985466">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Tolonen LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.883089" lat="66.514137">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vaarala LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.15229" lat="66.612419">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vaattunki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.7656" lat="66.229683">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Valijoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.721233" lat="66.374916">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vanttausjokisuu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.59585" lat="66.456673">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vanttausjärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.218782" lat="66.624748">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vikajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.188034" lat="66.61953">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vikaköngäs LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.747587" lat="66.45594">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Virikkolampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.574566" lat="66.387383">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vuoskuojansuu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.342966" lat="66.67157">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Yla-Mellalampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.2388" lat="66.784035">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ylinampa LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.044519" lat="66.266876">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Hietakangas KO</name>
+		<cmt>ampumaradalla</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.169279" lat="66.705513">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Keskipeurajärvi LA</name>
+		<cmt>kota vastarannalla</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.894661" lat="66.834534">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Aatsinginhauta LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="29.26281" lat="66.533012">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Haukanpesänlampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.901711" lat="66.822746">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Jokikota LA</name>
+		<cmt>Nimestään huolimatta kyseessä on laavu. Yksityisomistuksessa, mutta vieraskirjassa vieraat toivotettiin tervetulleeksi.
+Puucee ja puuvaja.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.7621" lat="66.766411">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Keselmäjärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="29.236933" lat="67.225853">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Naruskantie KO</name>
+		<cmt>Puucee, puuvaja.
+Lapsille ja lapsenmielisille hiekkalaatikko ja keinu.</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="29.82375" lat="67.553017">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Petäjärinne LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.238291" lat="66.664963">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ylä-Vilmajoki TP</name>
+		<cmt>Keittokatos ja tulipaikka</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.85309" lat="66.738068">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kaunisharju LA</name>
+		<cmt>2 laavua myös tien toisella puolella järven rannalla</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.19544" lat="66.573982">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Riutukka KO</name>
+		<cmt>autiotupa sauna ja grillikatos</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="29.07902" lat="66.550529">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Hangaslahti KO</name>
+		<cmt>myös laavu</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="28.271393" lat="66.581726">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Joutsjärventie TP</name>
+		<cmt>puita on kirvestä ei</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.680111" lat="66.845528">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ruuhijärvi TP</name>
+		<cmt>vastarannalla uimaranta</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.362989" lat="67.776711">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Järvimuotka KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="28.31447" lat="67.713219">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Majavasokka LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="29.7005" lat="67.51828">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Nuoluskuru KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="29.766371" lat="67.603271">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Piimäkuru LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.371059" lat="67.772873">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Satkovittikko LA</name>
+		<cmt>laavu myös 1 km alempana jokivarressa</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.38302" lat="65.92234">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Huhtalampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.61997" lat="65.766693">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Luolajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.42787" lat="65.767181">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Luujärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.77714" lat="65.662468">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Länsihiekka LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.2677" lat="65.755852">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Maitokallionvirta LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.05057" lat="65.643532">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Mertakoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.616619" lat="65.844582">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Mötyskoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.758909" lat="65.665359">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Saarennokka LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.654181" lat="65.831757">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Saarikoski koulu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.778049" lat="66.042213">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Tainijoki LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.71368" lat="65.773911">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ylioja LA</name>
+		<cmt>nähtävyys Jääkärikämppä lähellä</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.062309" lat="68.390717">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Aittajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.210621" lat="67.643929">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Allemaoja LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.077721" lat="67.460129">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kelujärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.30162" lat="67.06134">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kielinen LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.95599" lat="67.1866">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kitinen KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="26.21554" lat="67.054192">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kuikkalampi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="27.19235" lat="67.706787">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Lohikoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.39403" lat="67.762558">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Neitikäinen LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.36392" lat="67.437958">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Sarvilampi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.175591" lat="67.597443">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Tikkalaavu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.1544" lat="66.158524">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ossauskoski LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.22105" lat="65.776619">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Koivuluoto LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.156601" lat="65.834023">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Parasniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.24544" lat="65.830597">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Pruikkosenpää LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.14518" lat="65.780083">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Prännärinniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.42231" lat="65.962433">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Tienhaara KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.741341" lat="69.2929">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Doarrovas LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.60107" lat="70.070236">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Joensuu LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.02643" lat="69.886017">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Utsjoki KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.4653" lat="66.225166">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Aittavaara LA</name>
+		<cmt>Alatornion Metsästys seuran laavu</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.495991" lat="66.472847">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Harjuvaara KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.00481" lat="66.534782">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Iso-Airi TP</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.39695" lat="66.393806">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Kuijasjoki TP</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.917994" lat="66.383621">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Portimojärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.691336" lat="66.657265">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Raanujärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.18244" lat="66.53109">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Torasjärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.51701" lat="66.427582">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Vaattorova KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.66321" lat="66.321701">
+		<time>2012-10-23T15:57:22Z</time>
+		<name>Ylitornio LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.985535" lat="66.687019">
+		<time>2012-11-08T17:54:33Z</time>
+		<name>Joutsijärvi KO</name>
+		<cmt>Kyläyhdistyksen (?) laavu Sallan tien varressa</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.774897" lat="66.296448">
+		<time>2012-12-20T19:00:55Z</time>
+		<name>Reväsvaara</name>
+		<cmt>Reväsvaaran päällä oleva laavu josta näkee Torniojokivarteen erittäin hyvin. Entinen rajavartioston rajan tarkkailu paikka.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.729019" lat="66.316277">
+		<time>2012-12-20T19:09:25Z</time>
+		<name>Hietkangas (Ainiovaara)</name>
+		<cmt>Ainiovaaran itäpuolella oleva laavu.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.643589" lat="66.322937">
+		<time>2012-12-20T20:49:36Z</time>
+		<name>Haukkavaara</name>
+		<cmt>Uusi laavu jossa WC vieressä</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.858839" lat="66.349525">
+		<time>2012-12-20T21:18:33Z</time>
+		<name>Kivivaara</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.704" lat="66.319229">
+		<time>2012-12-20T21:28:25Z</time>
+		<name>Ainiovaara laavu</name>
+		<cmt>Hyvät maisemat kuntakeskukseen ja Torniojoelle</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.836008" lat="66.306969">
+		<time>2012-12-20T21:32:46Z</time>
+		<name>Simovaara</name>
+		<cmt>Simovaaran tien laidassa Reväsjahdi tekemä.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.820387" lat="66.33007">
+		<time>2012-12-20T21:36:49Z</time>
+		<name>Viisavaara</name>
+		<cmt>Taustan hirvimiesten tekemä laavu</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.005651" lat="66.045517">
+		<time>2012-12-20T21:47:43Z</time>
+		<name>Karungin laavu</name>
+		<cmt>Omistaja Karungin kylätoimikunta. Jäätien vieressä Torniojoen rannalla</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.705481" lat="67.446869">
+		<time>2012-12-20T22:29:05Z</time>
+		<name>Äkäsjokisuu</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.487078" lat="66.790764">
+		<time>2012-12-20T22:39:58Z</time>
+		<name>Karkurova</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.814316" lat="69.358391">
+		<time>2012-12-21T10:00:07Z</time>
+		<name>Cahppesguoika KO</name>
+		<cmt>Kuva JuhaL.</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="29.189907" lat="67.862656">
+		<time>2012-12-21T10:30:06Z</time>
+		<name>Haukijärvenoja LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.730148" lat="67.820076">
+		<time>2012-12-21T10:46:47Z</time>
+		<name>Lokka LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="29.202414" lat="67.544022">
+		<time>2012-12-21T10:58:06Z</time>
+		<name>Naruskantie TP</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.086699" lat="65.935631">
+		<time>2012-12-21T11:01:38Z</time>
+		<name>Tuohmaanrannan laavu</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.110107" lat="66.120956">
+		<time>2012-12-21T11:12:14Z</time>
+		<name>Palovaaran laavu</name>
+		<cmt>Omistaja Kotikoulu Oy</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.392191" lat="65.857582">
+		<time>2012-12-21T11:15:32Z</time>
+		<name>Viitakankaan laavu</name>
+		<cmt>Omistaja Alatornion metsästysseura</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.222462" lat="66.077591">
+		<time>2012-12-21T11:17:56Z</time>
+		<name>Aapajärven laavu</name>
+		<cmt>Omistaja Aapajärven kylätoimikunta</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.420429" lat="65.901321">
+		<time>2012-12-21T11:22:08Z</time>
+		<name>Alkunmaan laavu</name>
+		<cmt>Omistaja Tornion seudun metsästysseura</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.403822" lat="66.075813">
+		<time>2012-12-21T11:26:18Z</time>
+		<name>Kivijärven laavu</name>
+		<cmt>Omistaja Arpelan kylätoimikunta</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.506819" lat="65.902184">
+		<time>2012-12-21T11:30:47Z</time>
+		<name>Kuivikon laavu</name>
+		<cmt>Omistaja Alatornion metsästysseura</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.967522" lat="66.123184">
+		<time>2012-12-21T11:33:09Z</time>
+		<name>Nivavaaran laavu</name>
+		<cmt>Omistaja Korpikylän maa ja ktnaiset</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.30694" lat="65.945648">
+		<time>2012-12-21T11:36:26Z</time>
+		<name>Nosanmaan laavu</name>
+		<cmt>Omistaja Vojakkalan erä</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.439999" lat="66.1157">
+		<time>2012-12-21T11:40:11Z</time>
+		<name>Sattajärven erän laavu</name>
+		<cmt>Omistaja Sattajärven erä</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.087921" lat="66.14415">
+		<time>2012-12-21T11:43:50Z</time>
+		<name>Tapio-ojan tien laavu</name>
+		<cmt>Omistaja Karungin erä</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.550219" lat="67.152725">
+		<time>2012-12-21T11:44:27Z</time>
+		<name>Pitkäjärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.219372" lat="66.061295">
+		<time>2012-12-21T11:48:04Z</time>
+		<name>Tievan laavu</name>
+		<cmt>Omistaja Kukkolan erämiehet</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.12545" lat="65.928703">
+		<time>2012-12-21T11:51:49Z</time>
+		<name>Työväentalonrannan laavu</name>
+		<cmt>Omistaja Tornion kaupunki</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.200531" lat="65.934845">
+		<time>2012-12-21T11:55:13Z</time>
+		<name>Yli-Liakan laavu</name>
+		<cmt>Omistaja Yliliakan kylätoimikunta</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.364872" lat="66.466179">
+		<time>2013-01-02T08:28:50Z</time>
+		<name>Leukumavaara</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.309025" lat="66.524834">
+		<time>2013-01-02T08:32:30Z</time>
+		<name>Haukkavaara</name>
+		<cmt>Haukkavaaran laavu Alisen Alposjärven kaakkoisosassa. Reitti laavulle lähtee Alposlahdentien varresta.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.183016" lat="66.531174">
+		<time>2013-01-02T08:34:20Z</time>
+		<name>Torasjärvi</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.408537" lat="66.590279">
+		<time>2013-01-02T08:37:28Z</time>
+		<name>Orhinselkä</name>
+		<cmt>Orhinselän niemi, Miekojärvi.</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.353191" lat="66.621994">
+		<time>2013-01-02T08:40:07Z</time>
+		<name>Hietalahti</name>
+		<cmt>Miekojärven Vaarasaaressa, Hietalahdessa</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.719856" lat="66.404205">
+		<time>2013-01-02T08:43:35Z</time>
+		<name>Aavasaksa kota</name>
+		<cmt>Aavasaksan pohjoispuolella, hiihtoladun varressa</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.725595" lat="66.39238">
+		<time>2013-01-02T08:51:23Z</time>
+		<name>Aavasaksa laavu</name>
+		<cmt>Aavasaksalla kruununkierroksen varressa</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.899227" lat="66.449142">
+		<time>2013-01-02T08:53:36Z</time>
+		<name>Kekovaara</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.872295" lat="66.523994">
+		<time>2013-01-02T08:58:14Z</time>
+		<name>Ratasvaara</name>
+		<cmt>Ratasvaaran luontopolun varressa</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.718" lat="66.359734">
+		<time>2013-01-02T09:00:54Z</time>
+		<name>Jaukkurinoja</name>
+		<cmt>Jaukkurinojan lähellä, Ainiovaara - Aavasaksa välisen hiihtoladun varressa</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.723787" lat="66.323311">
+		<time>2013-01-02T09:02:54Z</time>
+		<name>Ainiovaara kota</name>
+		<cmt>Ainiovaaran ja Aavasaksan välisen hiintoladun varressa oleva kota</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.348822" lat="66.631584">
+		<time>2013-01-02T12:10:12Z</time>
+		<name>Mustalahti</name>
+		<cmt>Miekojärvi, Vaarasaari, Mustalahti</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.342064" lat="66.623352">
+		<time>2013-01-02T12:11:24Z</time>
+		<name>Viitasaari</name>
+		<cmt>Miekojärvi, Viitasaari</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.556355" lat="66.58725">
+		<time>2013-01-02T12:12:38Z</time>
+		<name>Sompanen</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.601046" lat="66.627304">
+		<time>2013-01-02T12:13:31Z</time>
+		<name>Himotussaari</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.380503" lat="66.493591">
+		<time>2013-01-02T12:15:51Z</time>
+		<name>Pessakoski</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.408991" lat="66.62072">
+		<time>2013-01-02T12:19:54Z</time>
+		<name>Pitkäniemi</name>
+		<cmt>Miekojärvi, Vaarasaari, Pitkäniemi</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.638475" lat="66.696754">
+		<time>2013-01-02T12:22:12Z</time>
+		<name>Romakka</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.422768" lat="66.736137">
+		<time>2013-01-02T12:24:19Z</time>
+		<name>Pallistaja</name>
+		<cmt>Eeron polun varrella, näköalatornin vieressä.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.343145" lat="66.749138">
+		<time>2013-01-02T12:26:37Z</time>
+		<name>Lankojärvi</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.153017" lat="66.794083">
+		<time>2013-01-02T12:30:22Z</time>
+		<name>Paljukka</name>
+		<cmt>Moottorikelkkareitin ja luontopolun varrella</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="27.579155" lat="66.252876">
+		<time>2013-01-08T05:54:58Z</time>
+		<name>julmajärvi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.023424" lat="66.376633">
+		<time>2013-01-08T05:58:15Z</time>
+		<name>Pirttimaa KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.517181" lat="65.674728">
+		<time>2013-01-10T12:48:17Z</time>
+		<name>Ajos LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.213797" lat="66.449013">
+		<time>2013-01-22T06:45:48Z</time>
+		<name>Isojärvi S LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="27.463041" lat="66.903343">
+		<time>2013-01-24T08:39:06Z</time>
+		<name>Tapionniemi LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.883665" lat="66.759529">
+		<time>2013-01-28T13:20:29Z</time>
+		<name>Hirvaskoski</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.948929" lat="66.53701">
+		<time>2013-01-28T13:26:10Z</time>
+		<name>Ahkiojärvi</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="23.794788" lat="66.526352">
+		<time>2013-01-28T13:29:31Z</time>
+		<name>Kattilakoski</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.804714" lat="66.790398">
+		<time>2013-01-28T13:39:18Z</time>
+		<name>Korpilompolo</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.414143" lat="66.70285">
+		<time>2013-01-28T13:46:04Z</time>
+		<name>Lankojärvi, Pikkuniemi</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.278702" lat="66.914345">
+		<time>2013-01-28T13:49:38Z</time>
+		<name>Mustitunturi</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.966148" lat="66.644463">
+		<time>2013-01-28T13:51:56Z</time>
+		<name>Paamajärvi</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.857201" lat="66.870651">
+		<time>2013-01-28T13:54:37Z</time>
+		<name>Rattosjärvi</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.590267" lat="66.707809">
+		<time>2013-01-28T17:12:25Z</time>
+		<name>Romakkajärvi</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.887743" lat="66.500015">
+		<time>2013-01-28T17:20:21Z</time>
+		<name>Ylinenjärvi</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.932381" lat="67.350037">
+		<time>2013-03-10T17:02:15Z</time>
+		<name>Vuomakota KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.701302" lat="67.146515">
+		<time>2013-03-10T17:03:24Z</time>
+		<name>Unarin Luusua LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.384478" lat="67.768539">
+		<time>2013-06-01T09:34:52Z</time>
+		<name>Ylempivasaoja LA</name>
+		<cmt>Hieno pikkulaavu Kairijoen rannalla. Puucee ja puuvaja.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.2929" lat="69.456047">
+		<time>2013-06-01T10:28:27Z</time>
+		<name>Ruktajärvi LA</name>
+		<cmt>Puolikota Ruktajärven autiotuvan pihapiirissä. Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="26.305475" lat="69.50573">
+		<time>2013-06-01T10:33:48Z</time>
+		<name>Njavgoaivi KO</name>
+		<cmt>Kota Njavgoaivin autiotuvan pihapiirissä. Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.140429" lat="68.040817">
+		<time>2013-06-01T13:35:20Z</time>
+		<name>Pallasjärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.254835" lat="67.632919">
+		<time>2013-06-01T13:44:25Z</time>
+		<name>Hangaskuru LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.25395" lat="67.658569">
+		<time>2013-06-01T13:46:52Z</time>
+		<name>Kotamaja KO</name>
+		<cmt>Puucee ja puuvaja. Syys(?)- ja talvisesongin aikaan kahvila. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.546461" lat="67.680084">
+		<time>2013-06-01T13:56:36Z</time>
+		<name>Niritsankuusikko KO</name>
+		<cmt>Tunnetaan myös nimellä Lentokonekota. Lähistöllä vuonna 1944 maahansyöksyneen saksalaisen Junkers Ju52:n jäänteet.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.815044" lat="68.401115">
+		<time>2013-06-01T14:03:16Z</time>
+		<name>Periläjärvi KO</name>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="25.246443" lat="65.838112">
+		<time>2013-06-01T15:29:05Z</time>
+		<name>Hangassalmi LA</name>
+		<cmt>Iso laavu, puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.18899" lat="65.829536">
+		<time>2013-06-01T15:33:05Z</time>
+		<name>Martimojärvi LA</name>
+		<cmt>Puusee ja puuvaja. Huollettu.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.057444" lat="65.8815">
+		<time>2013-06-01T15:37:11Z</time>
+		<name>Kivalot LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.042652" lat="65.880173">
+		<time>2013-06-01T15:39:29Z</time>
+		<name>Kivalo Jääkärikämppä LA</name>
+		<cmt>Laavu Kivalon Jääkärikämpän pihapiirissä. Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="26.675512" lat="67.353226">
+		<time>2013-06-01T16:02:04Z</time>
+		<name>Kaikkonen LA</name>
+		<cmt>Puolikota. Puusee ja puuvaja. Lintutorni vieressä.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="26.685291" lat="67.350395">
+		<time>2013-06-01T16:07:59Z</time>
+		<name>Orajoki LA</name>
+		<cmt>Omat puut mukaan.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.31205" lat="65.839111">
+		<time>2013-06-01T16:15:17Z</time>
+		<name>Alatalonkari LA</name>
+		<cmt>Puucee ja puuvaja.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="24.673994" lat="67.644348">
+		<time>2013-06-01T16:23:09Z</time>
+		<name>Ruottama KO</name>
+		<cmt>Hirsinen grillikota. Puuvaja.
+Siivottomassa kunnossa (elokuu 2010).</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="23.46559" lat="68.174683">
+		<time>2013-06-01T16:45:48Z</time>
+		<name>Vuosukkajärvi KO</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.37525" lat="67.679123">
+		<time>2013-06-01T17:13:54Z</time>
+		<name>Pyhäjärvi LA</name>
+		<cmt>Kaksi laavua vierekkäin. Autiotupa vieressä. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.371988" lat="67.68425">
+		<time>2013-06-01T17:15:21Z</time>
+		<name>Vareskota KO</name>
+		<cmt>Puusee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.570805" lat="67.701981">
+		<time>2013-06-01T18:15:42Z</time>
+		<name>Sotkasjyrhämä KO</name>
+		<cmt>Huonokuntoinen kota. Ei puuhuoltoa.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.40822" lat="66.897903">
+		<time>2013-06-01T19:21:27Z</time>
+		<name>Veikkola LA</name>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="25.183313" lat="67.323097">
+		<time>2013-06-01T20:06:32Z</time>
+		<name>Saariselkä KO</name>
+		<cmt>Molkojärven Saariselkä. Ilmeisesti poromiesten kota. Ovessa ei lukkoa (heinä 2009).</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="28.583609" lat="69.361351">
+		<time>2013-06-01T20:18:30Z</time>
+		<name>Suolistaipale KO</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.188955" lat="67.350792">
+		<time>2013-06-01T20:31:40Z</time>
+		<name>Särkilehto LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.
+http://www.kurtakko.fi/telatie/telatie.html</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.112623" lat="67.351295">
+		<time>2013-06-01T20:35:21Z</time>
+		<name>Kivijärvenoja LA</name>
+		<cmt>http://www.kurtakko.fi/telatie/telatie.html</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="27.338238" lat="66.385643">
+		<time>2013-06-02T07:22:36Z</time>
+		<name>Juuvaara LA</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.595341" lat="67.603905">
+		<time>2013-06-02T09:20:38Z</time>
+		<name>Leukkuhamara KK</name>
+		<cmt>Keittokatos.</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="24.049726" lat="68.108505">
+		<time>2013-06-08T10:46:48Z</time>
+		<name>Rihmakuru KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.053577" lat="68.130699">
+		<time>2013-06-08T10:50:09Z</time>
+		<name>Nammalakuru KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.
+Nammalakurun autiotupa.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.993626" lat="68.185669">
+		<time>2013-06-08T10:52:55Z</time>
+		<name>Suaskuru KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.
+Kartoissa merkitty laavuksi.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.945818" lat="68.218117">
+		<time>2013-06-08T10:56:46Z</time>
+		<name>Hannukuru KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.
+Alueella myös Hannukurun autio- ja varaustupa sekä sauna.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.959297" lat="68.264473">
+		<time>2013-06-08T11:03:19Z</time>
+		<name>Pippokero LA</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="26.808834" lat="67.562149">
+		<time>2013-06-16T11:06:18Z</time>
+		<name>Viiankiaapa LA</name>
+		<cmt>Puucee ja puuvaja. Lähde 150 m. Näkötorni 700 m.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="26.788193" lat="67.571388">
+		<time>2013-06-16T11:10:48Z</time>
+		<name>Viiankijärvi KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.503069" lat="67.648415">
+		<time>2013-06-16T11:15:45Z</time>
+		<name>Riekkohauta LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.445009" lat="67.657303">
+		<time>2013-06-16T11:18:39Z</time>
+		<name>Saunavaara KK</name>
+		<cmt>Keittokatos.</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="28.412491" lat="67.675888">
+		<time>2013-06-16T11:20:58Z</time>
+		<name>Kuritsa LA</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.399229" lat="67.688744">
+		<time>2013-06-16T11:23:42Z</time>
+		<name>Sormijoensuu LA</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.360306" lat="67.702469">
+		<time>2013-06-16T11:26:58Z</time>
+		<name>Majavakoski LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Picnic Area</sym>
+	</wpt>
+	<wpt lon="28.309492" lat="67.722023">
+		<time>2013-06-16T11:30:07Z</time>
+		<name>Karppisenpirtti LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.309521" lat="67.735153">
+		<time>2013-06-16T11:33:08Z</time>
+		<name>Murkinahauta KK</name>
+		<cmt>Keittokatos.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.305286" lat="67.742317">
+		<time>2013-06-16T11:35:17Z</time>
+		<name>Alempivasaoja LA</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.330866" lat="67.824753">
+		<time>2013-06-16T11:39:34Z</time>
+		<name>Ylä-Kairi KK</name>
+		<cmt>Keittokatos.</cmt>
+		<sym>Campground</sym>
+	</wpt>
+	<wpt lon="29.361275" lat="67.967644">
+		<time>2013-06-16T14:58:26Z</time>
+		<name>Kolsakoskenoja LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.372219" lat="67.956009">
+		<time>2013-06-16T14:59:55Z</time>
+		<name>Saukkosuvanto KO</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.399426" lat="67.952095">
+		<time>2013-06-16T15:01:25Z</time>
+		<name>Saukkosuvannonvaara LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.344793" lat="67.943146">
+		<time>2013-06-16T15:03:06Z</time>
+		<name>Voitinköngäs KO</name>
+		<cmt>Puucee/puuvaja. Huollettu</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.322693" lat="67.932007">
+		<time>2013-06-16T15:04:59Z</time>
+		<name>Alimmainen Hirvashauta KO</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.256388" lat="67.898575">
+		<time>2013-06-16T15:07:21Z</time>
+		<name>Ylempi Hirvashauta LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.21439" lat="67.899673">
+		<time>2013-06-16T15:10:07Z</time>
+		<name>Jänkäkoski LA</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.179699" lat="67.893173">
+		<time>2013-06-16T15:11:46Z</time>
+		<name>Kurtsinniska LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.18928" lat="67.878685">
+		<time>2013-06-16T15:13:36Z</time>
+		<name>Silpakurunsuu KO</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.187895" lat="67.873375">
+		<time>2013-06-16T15:15:05Z</time>
+		<name>Liemussuvanto LA</name>
+		<cmt>Puucee ja puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.156963" lat="67.847237">
+		<time>2013-06-16T15:17:58Z</time>
+		<name>Vitta-apajanlehto LA</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.150215" lat="67.83596">
+		<time>2013-06-16T15:19:55Z</time>
+		<name>Kärekelehto LA</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="29.14189" lat="67.809578">
+		<time>2013-06-16T15:21:53Z</time>
+		<name>Hotikaisenmukka LA</name>
+		<cmt>Puucee/puuvaja. Huollettu.</cmt>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="28.990162" lat="67.713242">
+		<time>2013-06-16T15:26:09Z</time>
+		<name>Sotatunturi KO</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="23.969608" lat="67.544022">
+		<time>2013-06-18T09:58:18Z</time>
+		<name>Hannukainen LA</name>
+		<sym>Lodge</sym>
+	</wpt>
+	<wpt lon="24.283571" lat="67.485596">
+		<time>2013-06-18T10:07:13Z</time>
+		<name>Myllykoski LA</name>
+		<sym>Lodge</sym>
+	</wpt>
