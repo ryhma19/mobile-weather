@@ -48,7 +48,7 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     loadProfileImage()
-  }, [])
+  }, [user?.uid])
 
   useEffect(() => {
     const unsubscribe = subscribeToSightings((items) => {
@@ -58,11 +58,24 @@ export default function ProfileScreen() {
     return unsubscribe
   }, [])
 
-  async function loadProfileImage() {
-    const saved = await AsyncStorage.getItem("profileImage")
-    if (saved) {
-      setImageUri(saved)
+  function getProfileImageStorageKey() {
+    if (!user?.uid) {
+      return null
     }
+
+    return `profileImage:${user.uid}`
+  }
+
+  async function loadProfileImage() {
+    const storageKey = getProfileImageStorageKey()
+
+    if (!storageKey) {
+      setImageUri(null)
+      return
+    }
+
+    const saved = await AsyncStorage.getItem(storageKey)
+    setImageUri(saved || null)
   }
 
   async function pickImage() {
@@ -77,9 +90,16 @@ export default function ProfileScreen() {
     })
 
     if (!result.canceled) {
+      const storageKey = getProfileImageStorageKey()
+
+      if (!storageKey) {
+        Alert.alert("No user", "You must be logged in to save a profile picture")
+        return
+      }
+
       const uri = result.assets[0].uri
       setImageUri(uri)
-      await AsyncStorage.setItem("profileImage", uri)
+      await AsyncStorage.setItem(storageKey, uri)
     }
   }
 
