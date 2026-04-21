@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { Marker, UrlTile } from "react-native-maps";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -53,6 +54,13 @@ export default function MapScreen() {
   const [sightingCategory, setSightingCategory] = useState("");
   const [sightingNote, setSightingNote] = useState("");
   const [isSavingSighting, setIsSavingSighting] = useState(false);
+
+  const navigation = useNavigation<any>();
+  useEffect(() => {
+  navigation.setParams({
+    isAddingSighting: isPickingSightingLocation,
+  });
+}, [isPickingSightingLocation, navigation]);
 
   const availableCategories = useMemo(
     () => getAvailableCategories(wildernessHuts),
@@ -387,17 +395,19 @@ export default function MapScreen() {
           </Pressable>
         </View>
 
-        <Pressable
-          style={[styles.addButton, { bottom: insets.bottom + 92 }]}
-          onPress={startPickingSightingLocation}
-        >
-          <MaterialCommunityIcons
-            name="plus"
-            size={22}
-            color={colors.textPrimary}
-          />
-          <Text style={styles.addButtonText}>Add sighting</Text>
-        </Pressable>
+        {!isPickingSightingLocation && (
+          <Pressable
+            style={[styles.addButton, { bottom: insets.bottom + 79 }]}
+            onPress={startPickingSightingLocation}
+           >
+             <MaterialCommunityIcons
+                name="plus"
+                size={22}
+                color={colors.textPrimary}
+              />
+             <Text style={styles.addButtonText}>Add sighting</Text>
+          </Pressable>
+        )}
 
         {showHutsPanel && (
           <View style={[styles.hutsPanel, { top: insets.top + 62 }]}>

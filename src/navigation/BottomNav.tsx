@@ -25,9 +25,13 @@ function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const insets = useSafeAreaInsets()
   const bottomOffset = insets.bottom + 8
-  const isMapScreen = state.routes[state.index]?.name === "Map"
+  const currentRoute = state.routes[state.index]
+  const isMapScreen = currentRoute?.name === "Map"
   const iconColor = isMapScreen ? "#000" : colors.textSecondary
   const activeIconColor = isMapScreen ? "#000" : colors.textPrimary
+  const isAddingSighting =
+    currentRoute?.name === "Map" &&
+    Boolean((currentRoute.params as { isAddingSighting?: boolean } | undefined)?.isAddingSighting)
 
   const visibleRoutes = state.routes.filter(
     (route) =>
@@ -115,6 +119,10 @@ function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   }
 
   if (!isOpen) {
+    if (isAddingSighting) {
+      return null
+    }
+
     return (
       <View
         pointerEvents="box-none"
@@ -231,10 +239,7 @@ export default function BottomNav() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
-          ),
+          tabBarButton: () => null,
         }}
       />
     </Tab.Navigator>
@@ -305,7 +310,7 @@ const styles = StyleSheet.create({
   collapseButton: {
     position: "absolute",
     right: 10,
-    width: 30,
+    width: 40,
     height: 30,
     borderRadius: 15,
     alignItems: "center",
