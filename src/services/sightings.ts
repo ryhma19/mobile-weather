@@ -2,8 +2,6 @@ import {
   addDoc,
   collection,
   onSnapshot,
-  orderBy,
-  query,
   serverTimestamp,
 } from "firebase/firestore"
 import { auth, db } from "./firebase"
@@ -25,42 +23,57 @@ export async function createSighting(
 ) {
   const user = auth.currentUser
 
+  console.log("createSighting called")
+  console.log("current user", user)
+  console.log("db object", db)
+  console.log("payload", { category, note, latitude, longitude })
+
   if (!user) {
     throw new Error("User not logged in")
   }
 
-  await addDoc(collection(db, "sightings"), {
-    userId: user.uid,
-    category,
-    note,
-    latitude,
-    longitude,
-    createdAt: serverTimestamp(),
-  })
+  try {
+    const result = await addDoc(collection(db, "sightings"), {
+      userId: user.uid,
+      category,
+      note,
+      latitude,
+      longitude,
+      createdAt: serverTimestamp(),
+    })
+
+    console.log("addDoc success, id:", result.id)
+  } catch (error) {
+    console.log("addDoc failed", error)
+    throw error
+  }
 }
 
 export function subscribeToSightings(
   callback: (items: Sighting[]) => void
 ) {
-  const sightingsQuery = query(
+  return onSnapshot(
     collection(db, "sightings"),
-    orderBy("createdAt", "desc")
+    (snapshot) => {
+      console.log("subscribeToSightings snapshot size", snapshot.size)
+
+      const items: Sighting[] = snapshot.docs.map((doc) => {
+        const data = doc.data()
+
+        return {
+          id: doc.id,
+          userId: data.userId,
+          category: data.category,
+          note: data.note,
+          latitude: data.latitude,
+          longitude: data.longitude,
+        }
+      })
+
+      callback(items)
+    },
+    (error) => {
+      console.log("subscribeToSightings failed", error)
+    }
   )
-
-  return onSnapshot(sightingsQuery, (snapshot) => {
-    const items: Sighting[] = snapshot.docs.map((doc) => {
-      const data = doc.data()
-
-      return {
-        id: doc.id,
-        userId: data.userId,
-        category: data.category,
-        note: data.note,
-        latitude: data.latitude,
-        longitude: data.longitude,
-      }
-    })
-
-    callback(items)
-  })
 }

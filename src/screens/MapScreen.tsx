@@ -237,36 +237,41 @@ export default function MapScreen() {
   }
 
   async function saveSighting() {
-    const trimmedCategory = sightingCategory.trim();
-    const trimmedNote = sightingNote.trim();
+  const trimmedCategory = sightingCategory.trim()
+  const trimmedNote = sightingNote.trim()
 
-    if (!draftCoordinate) {
-      setLocationError("Pick a location on the map first");
-      return;
-    }
-
-    if (!trimmedCategory) {
-      setLocationError("Add a category first");
-      return;
-    }
-
-    try {
-      setLocationError(null);
-      setIsSavingSighting(true);
-
-      await createSighting(
-        trimmedCategory,
-        trimmedNote,
-        draftCoordinate.latitude,
-        draftCoordinate.longitude
-      );
-
-      cancelSightingDraft();
-    } catch (error: any) {
-      setLocationError(error?.message || "Failed to save sighting");
-      setIsSavingSighting(false);
-    }
+  if (!draftCoordinate) {
+    setLocationError("Pick a location on the map first")
+    return
   }
+
+  if (!trimmedCategory) {
+    setLocationError("Add a category first")
+    return
+  }
+
+  try {
+    setLocationError(null)
+    setIsSavingSighting(true)
+
+    console.log("saveSighting start")
+
+    await createSighting(
+      trimmedCategory,
+      trimmedNote,
+      draftCoordinate.latitude,
+      draftCoordinate.longitude
+    )
+
+    console.log("saveSighting success")
+    cancelSightingDraft()
+  } catch (error: any) {
+    console.log("saveSighting failed", error)
+    setLocationError(error?.message || "Failed to save sighting")
+  } finally {
+    setIsSavingSighting(false)
+  }
+}
 
   return (
       <View style={styles.container}>
