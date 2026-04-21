@@ -1,6 +1,8 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   serverTimestamp,
 } from "firebase/firestore"
@@ -45,6 +47,22 @@ export async function createSighting(
     console.log("addDoc success, id:", result.id)
   } catch (error) {
     console.log("addDoc failed", error)
+    throw error
+  }
+}
+
+export async function deleteSighting(sightingId: string) {
+  const user = auth.currentUser
+
+  if (!user) {
+    throw new Error("User not logged in")
+  }
+
+  try {
+    await deleteDoc(doc(db, "sightings", sightingId))
+    console.log("deleteDoc success, id:", sightingId)
+  } catch (error) {
+    console.log("deleteDoc failed", error)
     throw error
   }
 }
