@@ -37,25 +37,25 @@ export default function MapScreen() {
   const insets = useSafeAreaInsets();
   const mapRef = useRef<MapView>(null);
 
-  // --- Sijaintitilamuuttujat ---
+  //  Sijaintitilamuuttujat 
   const [userLocation, setUserLocation] = useState<Location.LocationObject | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
 
-  // --- Hakukenttä ---
+  // Hakukenttä 
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  // --- Autiotupapaneeli ---
+  // Autiotupapaneeli 
   const [showHutsPanel, setShowHutsPanel] = useState(false);
   const [isLoadingHuts, setIsLoadingHuts] = useState(false);
   const [selectedHutRegion, setSelectedHutRegion] = useState<HutRegion | null>(null);
   const [wildernessHuts, setWildernessHuts] = useState<WildernessHut[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  // --- Kartan näkymäalue ---
+  //  Kartan näkymäalue 
   const [currentRegion, setCurrentRegion] = useState<MapViewport>(INITIAL_REGION);
 
-  // --- Havainnot (sightings) ---
+  //  Havainnot (sightings) 
   const [sightings, setSightings] = useState<Sighting[]>([]);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [isPickingSightingLocation, setIsPickingSightingLocation] = useState(false);
@@ -67,7 +67,7 @@ export default function MapScreen() {
   const [sightingNote, setSightingNote] = useState("");
   const [isSavingSighting, setIsSavingSighting] = useState(false);
 
-  // --- Askelmittari ---
+  // Askelmittari
   const [stepCount, setStepCount] = useState(0);
   const [isPedometerAvailable, setIsPedometerAvailable] = useState(false);
   const [isStepTracking, setIsStepTracking] = useState(true);
@@ -597,7 +597,7 @@ export default function MapScreen() {
             size={16}
             color={isStepTracking ? colors.textPrimary : colors.textMuted}
           />
-          <Text style={styles.pedometerText}>{stepCount} askelta</Text>
+          <Text style={styles.pedometerText}>{stepCount} steps</Text>
           <MaterialCommunityIcons
             name={isStepTracking ? "pause" : "play"}
             size={14}
@@ -617,9 +617,9 @@ export default function MapScreen() {
           onPress={() => setShowPedometerModal(false)}
         >
           <View style={[styles.pedometerModal, { bottom: insets.bottom + 88 }]}>
-            <Text style={styles.pedometerModalTitle}>Askelmittari</Text>
+            <Text style={styles.pedometerModalTitle}>Step Counter</Text>
             <Text style={styles.pedometerModalCount}>{stepCount}</Text>
-            <Text style={styles.pedometerModalLabel}>askelta</Text>
+            <Text style={styles.pedometerModalLabel}>steps</Text>
             <View style={styles.pedometerModalActions}>
               <Pressable
                 style={styles.pedometerAction}
@@ -634,7 +634,7 @@ export default function MapScreen() {
                   color={colors.textPrimary}
                 />
                 <Text style={styles.pedometerActionLabel}>
-                  {isStepTracking ? "Tauko" : "Jatka"}
+                  {isStepTracking ? "Pause" : "Resume"}
                 </Text>
               </Pressable>
               <Pressable
@@ -645,14 +645,14 @@ export default function MapScreen() {
                 }}
               >
                 <MaterialCommunityIcons name="refresh-circle" size={28} color={colors.textPrimary} />
-                <Text style={styles.pedometerActionLabel}>Nollaa</Text>
+                <Text style={styles.pedometerActionLabel}>Reset</Text>
               </Pressable>
               <Pressable
                 style={styles.pedometerAction}
                 onPress={() => setShowPedometerModal(false)}
               >
                 <MaterialCommunityIcons name="close-circle-outline" size={28} color={colors.textMuted} />
-                <Text style={[styles.pedometerActionLabel, { color: colors.textMuted }]}>Sulje</Text>
+                <Text style={[styles.pedometerActionLabel, { color: colors.textMuted }]}>Close</Text>
               </Pressable>
             </View>
           </View>
