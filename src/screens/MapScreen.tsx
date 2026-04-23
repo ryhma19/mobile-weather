@@ -36,16 +36,26 @@ import { colors } from "../theme/colors";
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
   const mapRef = useRef<MapView>(null);
+
+  // --- Sijaintitilamuuttujat ---
   const [userLocation, setUserLocation] = useState<Location.LocationObject | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
+
+  // --- Hakukenttä ---
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+
+  // --- Autiotupapaneeli ---
   const [showHutsPanel, setShowHutsPanel] = useState(false);
   const [isLoadingHuts, setIsLoadingHuts] = useState(false);
   const [selectedHutRegion, setSelectedHutRegion] = useState<HutRegion | null>(null);
   const [wildernessHuts, setWildernessHuts] = useState<WildernessHut[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  // --- Kartan näkymäalue ---
   const [currentRegion, setCurrentRegion] = useState<MapViewport>(INITIAL_REGION);
+
+  // --- Havainnot (sightings) ---
   const [sightings, setSightings] = useState<Sighting[]>([]);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [isPickingSightingLocation, setIsPickingSightingLocation] = useState(false);
@@ -56,6 +66,8 @@ export default function MapScreen() {
   const [sightingCategory, setSightingCategory] = useState("");
   const [sightingNote, setSightingNote] = useState("");
   const [isSavingSighting, setIsSavingSighting] = useState(false);
+
+  // --- Askelmittari ---
   const [stepCount, setStepCount] = useState(0);
   const [isPedometerAvailable, setIsPedometerAvailable] = useState(false);
   const [isStepTracking, setIsStepTracking] = useState(true);
@@ -63,27 +75,33 @@ export default function MapScreen() {
 
   const navigation = useNavigation<any>();
 
+  // Lasketaan saatavilla olevat kategoriat muistiin (suorituskyky)
   const availableCategories = useMemo(
     () => getAvailableCategories(wildernessHuts),
     [wildernessHuts]
   );
 
+  // Lasketaan kategoriamäärät suodatinchipejä varten
   const categoryCounts = useMemo(
     () => getCategoryCounts(wildernessHuts),
     [wildernessHuts]
   );
 
+  // Onko kartta zoomattu tarpeeksi lähelle tupien näyttämistä varten
   const isZoomedInEnough = currentRegion.latitudeDelta <= HUTS_VISIBLE_MAX_LATITUDE_DELTA;
 
+  // Näytettävät tuvat suodatettuina kategorian ja näkymäalueen mukaan
   const visibleHuts = useMemo(
     () => getVisibleHuts(wildernessHuts, selectedCategories, currentRegion),
     [currentRegion, selectedCategories, wildernessHuts]
   );
 
+  // Välitetään navigaatiolle tieto, onko havainnon lisäys käynnissä
   useEffect(() => {
     navigation.setParams({ isAddingSighting: isPickingSightingLocation });
   }, [isPickingSightingLocation, navigation]);
 
+  // Seurataan näppäimistön korkeutta, jotta paneeli nousee sen mukana
   useEffect(() => {
     const showEvent = Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
     const hideEvent = Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
@@ -95,10 +113,13 @@ export default function MapScreen() {
     };
   }, []);
 
+  // Tarkistetaan tukeeko laite askelmittaria
   useEffect(() => {
     Pedometer.isAvailableAsync().then(setIsPedometerAvailable);
   }, []);
 
+  // Tilataan askeleet kun mittari on saatavilla ja seuranta on päällä.
+  // watchStepCount palauttaa kumulatiivisen summan tilauksen alusta.
   useEffect(() => {
     let pedometerSub: ReturnType<typeof Pedometer.watchStepCount> | null = null;
     if (isPedometerAvailable && isStepTracking) {
@@ -111,6 +132,7 @@ export default function MapScreen() {
     };
   }, [isPedometerAvailable, isStepTracking]);
 
+  // Käynnistetään GPS-seuranta ja päivitetään sijainti jatkuvasti
   useEffect(() => {
     let subscription: Location.LocationSubscription | null = null;
 
@@ -144,6 +166,7 @@ export default function MapScreen() {
     };
   }, []);
 
+  // Tilataan havainnot Firestoresta reaaliajassa
   useEffect(() => {
     const unsubscribe = subscribeToSightings((items) => {
       setSightings(items);
@@ -152,6 +175,7 @@ export default function MapScreen() {
     return unsubscribe;
   }, []);
 
+  // Keskitetään kartta käyttäjän sijaintiin
   function centerOnUser() {
     if (userLocation) {
       setLocationError(null);
@@ -164,6 +188,7 @@ export default function MapScreen() {
     }
   }
 
+  // Haetaan paikka nimellä ja siirrytään siihen kartalla
   async function searchPlace() {
     const query = searchQuery.trim();
 
@@ -191,6 +216,7 @@ export default function MapScreen() {
     }
   }
 
+  // Vaihdetaan kategorian valinta päälle/pois suodatinta varten
   function toggleCategorySelection(category: string) {
     setSelectedCategories((current) =>
       current.includes(category)
@@ -199,6 +225,7 @@ export default function MapScreen() {
     );
   }
 
+  // Ladataan tai piilotetaan Lapin autiotuvat
   async function toggleLappiHuts() {
     if (selectedHutRegion === "lappi") {
       setSelectedHutRegion(null);
@@ -229,6 +256,7 @@ export default function MapScreen() {
     }
   }
 
+  // Aloitetaan uuden havainnon lisäys — käyttäjä valitsee sijainnin kartalta
   function startPickingSightingLocation() {
     setLocationError(null);
     setShowHutsPanel(false);
@@ -238,6 +266,7 @@ export default function MapScreen() {
     setSightingNote("");
   }
 
+  // Peruutetaan keskeneräinen havainto ja tyhjennetään lomake
   function cancelSightingDraft() {
     Keyboard.dismiss();
     setIsPickingSightingLocation(false);
@@ -247,6 +276,7 @@ export default function MapScreen() {
     setIsSavingSighting(false);
   }
 
+  // Käsitellään kartan painallus — asetetaan havainnon sijaintikoordinaatit
   function handleMapPress(event: any) {
     Keyboard.dismiss();
 
@@ -258,6 +288,7 @@ export default function MapScreen() {
     setDraftCoordinate({ latitude, longitude });
   }
 
+  // Tallennetaan havainto Firestoreen validoinnin jälkeen
   async function saveSighting() {
   const trimmedCategory = sightingCategory.trim()
   const trimmedNote = sightingNote.trim()
