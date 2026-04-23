@@ -10,6 +10,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { Marker, UrlTile } from "react-native-maps";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -29,6 +30,7 @@ import {
   type WildernessHut,
 } from "../services/mapHuts";
 import { createRegion, searchLocationRegion } from "../services/mapLocation";
+import { createSighting, subscribeToSightings, type Sighting } from "../services/sightings";
 import { colors } from "../theme/colors";
 
 export default function MapScreen() {
@@ -44,10 +46,22 @@ export default function MapScreen() {
   const [wildernessHuts, setWildernessHuts] = useState<WildernessHut[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentRegion, setCurrentRegion] = useState<MapViewport>(INITIAL_REGION);
+  const [sightings, setSightings] = useState<Sighting[]>([]);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [isPickingSightingLocation, setIsPickingSightingLocation] = useState(false);
+  const [draftCoordinate, setDraftCoordinate] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [sightingCategory, setSightingCategory] = useState("");
+  const [sightingNote, setSightingNote] = useState("");
+  const [isSavingSighting, setIsSavingSighting] = useState(false);
   const [stepCount, setStepCount] = useState(0);
   const [isPedometerAvailable, setIsPedometerAvailable] = useState(false);
   const [isStepTracking, setIsStepTracking] = useState(true);
   const [showPedometerModal, setShowPedometerModal] = useState(false);
+
+  const navigation = useNavigation<any>();
 
   const availableCategories = useMemo(
     () => getAvailableCategories(wildernessHuts),
@@ -67,18 +81,31 @@ export default function MapScreen() {
   );
 
   useEffect(() => {
+    navigation.setParams({ isAddingSighting: isPickingSightingLocation });
+  }, [isPickingSightingLocation, navigation]);
+
+  useEffect(() => {
+    const showEvent = Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+    const hideEvent = Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+    const showSub = Keyboard.addListener(showEvent, (e) => setKeyboardHeight(e.endCoordinates.height));
+    const hideSub = Keyboard.addListener(hideEvent, () => setKeyboardHeight(0));
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  useEffect(() => {
     Pedometer.isAvailableAsync().then(setIsPedometerAvailable);
   }, []);
 
   useEffect(() => {
     let pedometerSub: ReturnType<typeof Pedometer.watchStepCount> | null = null;
-
     if (isPedometerAvailable && isStepTracking) {
       pedometerSub = Pedometer.watchStepCount((result) => {
         setStepCount(result.steps);
       });
     }
-
     return () => {
       pedometerSub?.remove();
     };
@@ -115,6 +142,14 @@ export default function MapScreen() {
     return () => {
       subscription?.remove();
     };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToSightings((items) => {
+      setSightings(items);
+    });
+
+    return unsubscribe;
   }, []);
 
   function centerOnUser() {
@@ -194,167 +229,326 @@ export default function MapScreen() {
     }
   }
 
+  function startPickingSightingLocation() {
+    setLocationError(null);
+    setShowHutsPanel(false);
+    setIsPickingSightingLocation(true);
+    setDraftCoordinate(null);
+    setSightingCategory("");
+    setSightingNote("");
+  }
+
+  function cancelSightingDraft() {
+    Keyboard.dismiss();
+    setIsPickingSightingLocation(false);
+    setDraftCoordinate(null);
+    setSightingCategory("");
+    setSightingNote("");
+    setIsSavingSighting(false);
+  }
+
+  function handleMapPress(event: any) {
+    Keyboard.dismiss();
+
+    if (!isPickingSightingLocation) {
+      return;
+    }
+
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    setDraftCoordinate({ latitude, longitude });
+  }
+
+  async function saveSighting() {
+  const trimmedCategory = sightingCategory.trim()
+  const trimmedNote = sightingNote.trim()
+
+  if (!draftCoordinate) {
+    setLocationError("Pick a location on the map first")
+    return
+  }
+
+  if (!trimmedCategory) {
+    setLocationError("Add a category first")
+    return
+  }
+
+  try {
+    setLocationError(null)
+    setIsSavingSighting(true)
+
+    console.log("saveSighting start")
+
+    await createSighting(
+      trimmedCategory,
+      trimmedNote,
+      draftCoordinate.latitude,
+      draftCoordinate.longitude
+    )
+
+    console.log("saveSighting success")
+    cancelSightingDraft()
+  } catch (error: any) {
+    console.log("saveSighting failed", error)
+    setLocationError(error?.message || "Failed to save sighting")
+  } finally {
+    setIsSavingSighting(false)
+  }
+}
+
   return (
-    <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        initialRegion={INITIAL_REGION}
-        mapType={Platform.OS === "android" ? "none" : "standard"}
-        rotateEnabled={false}
-        pitchEnabled={false}
-        toolbarEnabled={false}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
-        onRegionChangeComplete={(region) => setCurrentRegion(region)}
-      >
-        <UrlTile
-          urlTemplate={MML_BACKGROUND_TILE_URL}
-          maximumZ={16}
-          flipY={false}
-          zIndex={1}
-        />
-
-        {visibleHuts.map((hut) => (
-          <Marker
-            key={hut.id}
-            coordinate={{ latitude: hut.latitude, longitude: hut.longitude }}
-            title={hut.name}
-            description={hut.details ?? hut.category}
-          >
-            <View style={styles.hutMarker}>
-              <MaterialCommunityIcons
-                name="home-variant"
-                size={14}
-                color={colors.textPrimary}
-              />
-            </View>
-          </Marker>
-        ))}
-      </MapView>
-
-      <View style={[styles.topControls, { top: insets.top + 8 }]}> 
-        <View style={styles.searchBox}>
-          <MaterialCommunityIcons
-            name="magnify"
-            size={18}
-            color={colors.textSecondary}
-          />
-          <TextInput
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            onSubmitEditing={searchPlace}
-            placeholder="Search place"
-            placeholderTextColor={colors.textMuted}
-            autoCapitalize="words"
-            autoCorrect={false}
-            returnKeyType="search"
-            style={styles.searchInput}
-          />
-          <Pressable
-            style={styles.searchActionButton}
-            onPress={searchPlace}
-            disabled={isSearching}
-          >
-            {isSearching ? (
-              <ActivityIndicator size="small" color={colors.textPrimary} />
-            ) : (
-              <MaterialCommunityIcons
-                name="arrow-right"
-                size={18}
-                color={colors.textPrimary}
-              />
-            )}
-          </Pressable>
-        </View>
-
-        <Pressable
-          style={styles.hutsToggleButton}
-          onPress={() => setShowHutsPanel((current) => !current)}
+      <View style={styles.container}>
+        <MapView
+          ref={mapRef}
+          style={styles.map}
+          initialRegion={INITIAL_REGION}
+          mapType={Platform.OS === "android" ? "none" : "standard"}
+          rotateEnabled={false}
+          pitchEnabled={false}
+          toolbarEnabled={false}
+          showsUserLocation={true}
+          showsMyLocationButton={false}
+          onRegionChangeComplete={(region) => setCurrentRegion(region)}
+          onPress={handleMapPress}
         >
-          <MaterialCommunityIcons
-            name="home-group"
-            size={20}
-            color={colors.textPrimary}
+          <UrlTile
+            urlTemplate={MML_BACKGROUND_TILE_URL}
+            maximumZ={16}
+            flipY={false}
+            zIndex={1}
           />
-        </Pressable>
 
-        <Pressable style={styles.locationButton} onPress={centerOnUser}>
-          <MaterialCommunityIcons
-            name="crosshairs-gps"
-            size={20}
-            color={colors.textPrimary}
-          />
-        </Pressable>
-      </View>
-
-      {showHutsPanel && (
-        <View style={[styles.hutsPanel, { top: insets.top + 62 }]}>
-          <Text style={styles.hutsPanelTitle}>Show the huts</Text>
-          <Pressable
-            style={[
-              styles.regionOption,
-              selectedHutRegion === "lappi" && styles.regionOptionActive,
-            ]}
-            onPress={toggleLappiHuts}
-            disabled={isLoadingHuts}
-          >
-            {isLoadingHuts ? (
-              <ActivityIndicator size="small" color={colors.textPrimary} />
-            ) : (
-              <MaterialCommunityIcons
-                name="map-marker-radius"
-                size={16}
-                color={colors.textPrimary}
-              />
-            )}
-            <Text style={styles.regionOptionText}>Lappi</Text>
-          </Pressable>
-
-          {selectedHutRegion === "lappi" && categoryCounts.length > 0 && (
-            <>
-              <Text style={styles.filterLabel}>Choose categories</Text>
-              <View style={styles.categoryWrap}>
-                {categoryCounts.map(({ category, count }) => {
-                  const isSelected = selectedCategories.includes(category);
-
-                  return (
-                    <Pressable
-                      key={category}
-                      style={[
-                        styles.categoryChip,
-                        isSelected && styles.categoryChipActive,
-                      ]}
-                      onPress={() => toggleCategorySelection(category)}
-                    >
-                      <Text style={styles.categoryChipText}>
-                        {category} ({count})
-                      </Text>
-                    </Pressable>
-                  );
-                })}
+          {visibleHuts.map((hut) => (
+            <Marker
+              key={hut.id}
+              coordinate={{ latitude: hut.latitude, longitude: hut.longitude }}
+              title={hut.name}
+              description={hut.details ?? hut.category}
+            >
+              <View style={styles.hutMarker}>
+                <MaterialCommunityIcons
+                  name="home-variant"
+                  size={14}
+                  color={colors.textPrimary}
+                />
               </View>
+            </Marker>
+          ))}
 
-              <Text style={styles.filterHint}>
-                {!isZoomedInEnough
-                  ? "Zoom closer to see huts on the map"
-                  : `${visibleHuts.length} huts visible`}
-              </Text>
-            </>
+          {sightings.map((item) => (
+            <Marker
+              key={item.id}
+              coordinate={{ latitude: item.latitude, longitude: item.longitude }}
+              title={item.category}
+              description={item.note}
+              pinColor={colors.accent}
+            />
+          ))}
+
+          {draftCoordinate && (
+            <Marker
+              coordinate={draftCoordinate}
+              title="New sighting"
+              description="Draft location"
+              pinColor="green"
+            />
           )}
-        </View>
-      )}
+        </MapView>
 
-      {locationError && (
-        <View
-          style={[
-            styles.errorBanner,
-            { top: insets.top + (showHutsPanel ? 138 : 64) },
-          ]}
-        >
-          <Text style={styles.errorText}>{locationError}</Text>
+        <View style={[styles.topControls, { top: insets.top + 8 }]}>
+          <View style={styles.searchBox}>
+            <MaterialCommunityIcons
+              name="magnify"
+              size={18}
+              color={colors.textSecondary}
+            />
+            <TextInput
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              onSubmitEditing={searchPlace}
+              placeholder="Search place"
+              placeholderTextColor={colors.textMuted}
+              autoCapitalize="words"
+              autoCorrect={false}
+              returnKeyType="search"
+              style={styles.searchInput}
+            />
+            <Pressable
+              style={styles.searchActionButton}
+              onPress={searchPlace}
+              disabled={isSearching}
+            >
+              {isSearching ? (
+                <ActivityIndicator size="small" color={colors.textPrimary} />
+              ) : (
+                <MaterialCommunityIcons
+                  name="arrow-right"
+                  size={18}
+                  color={colors.textPrimary}
+                />
+              )}
+            </Pressable>
+          </View>
+
+          <Pressable
+            style={styles.hutsToggleButton}
+            onPress={() => setShowHutsPanel((current) => !current)}
+          >
+            <MaterialCommunityIcons
+              name="home-group"
+              size={20}
+              color={colors.textPrimary}
+            />
+          </Pressable>
+
+          <Pressable style={styles.locationButton} onPress={centerOnUser}>
+            <MaterialCommunityIcons
+              name="crosshairs-gps"
+              size={20}
+              color={colors.textPrimary}
+            />
+          </Pressable>
         </View>
-      )}
+
+        {!isPickingSightingLocation && (
+          <Pressable
+            style={[styles.addButton, { bottom: insets.bottom + 79 }]}
+            onPress={startPickingSightingLocation}
+           >
+             <MaterialCommunityIcons
+                name="plus"
+                size={22}
+                color={colors.textPrimary}
+              />
+             <Text style={styles.addButtonText}>Add sighting</Text>
+          </Pressable>
+        )}
+
+        {showHutsPanel && (
+          <View style={[styles.hutsPanel, { top: insets.top + 62 }]}>
+            <Text style={styles.hutsPanelTitle}>Show the huts</Text>
+            <Pressable
+              style={[
+                styles.regionOption,
+                selectedHutRegion === "lappi" && styles.regionOptionActive,
+              ]}
+              onPress={toggleLappiHuts}
+              disabled={isLoadingHuts}
+            >
+              {isLoadingHuts ? (
+                <ActivityIndicator size="small" color={colors.textPrimary} />
+              ) : (
+                <MaterialCommunityIcons
+                  name="map-marker-radius"
+                  size={16}
+                  color={colors.textPrimary}
+                />
+              )}
+              <Text style={styles.regionOptionText}>Lappi</Text>
+            </Pressable>
+
+            {selectedHutRegion === "lappi" && categoryCounts.length > 0 && (
+              <>
+                <Text style={styles.filterLabel}>Choose categories</Text>
+                <View style={styles.categoryWrap}>
+                  {categoryCounts.map(({ category, count }) => {
+                    const isSelected = selectedCategories.includes(category);
+
+                    return (
+                      <Pressable
+                        key={category}
+                        style={[
+                          styles.categoryChip,
+                          isSelected && styles.categoryChipActive,
+                        ]}
+                        onPress={() => toggleCategorySelection(category)}
+                      >
+                        <Text style={styles.categoryChipText}>
+                          {category} ({count})
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+
+                <Text style={styles.filterHint}>
+                  {!isZoomedInEnough
+                    ? "Zoom closer to see huts on the map"
+                    : `${visibleHuts.length} huts visible`}
+                </Text>
+              </>
+            )}
+          </View>
+        )}
+        {isPickingSightingLocation && (
+        <View
+           style={[
+            styles.sightingPanel,
+            { bottom: keyboardHeight > 0 ? keyboardHeight + 12 : 12 },
+  ]}
+>
+            <View style={styles.sightingPanelHeader}>
+              <Text style={styles.sightingTitle}>New sighting</Text>
+              <Pressable onPress={Keyboard.dismiss} style={styles.doneButton}>
+                <Text style={styles.doneButtonText}>Done</Text>
+              </Pressable>
+            </View>
+
+            <Text style={styles.sightingHelp}>
+              Tap the map to choose a location
+            </Text>
+
+            <TextInput
+              value={sightingCategory}
+              onChangeText={setSightingCategory}
+              placeholder="Category, example blueberries"
+              placeholderTextColor={colors.textMuted}
+              style={styles.sightingInput}
+              returnKeyType="done"
+              onSubmitEditing={Keyboard.dismiss}
+            />
+
+            <TextInput
+              value={sightingNote}
+              onChangeText={setSightingNote}
+              placeholder="Extra info"
+              placeholderTextColor={colors.textMuted}
+              style={[styles.sightingInput, styles.sightingNoteInput]}
+              multiline
+            />
+
+            <View style={styles.sightingActions}>
+              <Pressable
+                style={[styles.sightingActionButton, styles.cancelButton]}
+                onPress={cancelSightingDraft}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.sightingActionButton, styles.saveButton]}
+                onPress={saveSighting}
+                disabled={isSavingSighting}
+              >
+                {isSavingSighting ? (
+                  <ActivityIndicator size="small" color={colors.background} />
+                ) : (
+                  <Text style={styles.saveButtonText}>Save</Text>
+                )}
+              </Pressable>
+            </View>
+          </View>
+        )}
+
+        {locationError && (
+          <View
+            style={[
+              styles.errorBanner,
+              { top: insets.top + (showHutsPanel ? 138 : 64) },
+            ]}
+          >
+            <Text style={styles.errorText}>{locationError}</Text>
+          </View>
+        )}
 
       <CoordinatesBadge
         latitude={userLocation?.coords.latitude}
@@ -372,9 +566,7 @@ export default function MapScreen() {
             size={16}
             color={isStepTracking ? colors.textPrimary : colors.textMuted}
           />
-          <Text style={styles.pedometerText}>
-            {stepCount} steps
-          </Text>
+          <Text style={styles.pedometerText}>{stepCount} askelta</Text>
           <MaterialCommunityIcons
             name={isStepTracking ? "pause" : "play"}
             size={14}
@@ -394,10 +586,9 @@ export default function MapScreen() {
           onPress={() => setShowPedometerModal(false)}
         >
           <View style={[styles.pedometerModal, { bottom: insets.bottom + 88 }]}>
-            <Text style={styles.pedometerModalTitle}>Step counter</Text>
+            <Text style={styles.pedometerModalTitle}>Askelmittari</Text>
             <Text style={styles.pedometerModalCount}>{stepCount}</Text>
-            <Text style={styles.pedometerModalLabel}>steps</Text>
-
+            <Text style={styles.pedometerModalLabel}>askelta</Text>
             <View style={styles.pedometerModalActions}>
               <Pressable
                 style={styles.pedometerAction}
@@ -412,10 +603,9 @@ export default function MapScreen() {
                   color={colors.textPrimary}
                 />
                 <Text style={styles.pedometerActionLabel}>
-                  {isStepTracking ? "Pause" : "Resume"}
+                  {isStepTracking ? "Tauko" : "Jatka"}
                 </Text>
               </Pressable>
-
               <Pressable
                 style={styles.pedometerAction}
                 onPress={() => {
@@ -423,24 +613,15 @@ export default function MapScreen() {
                   setShowPedometerModal(false);
                 }}
               >
-                <MaterialCommunityIcons
-                  name="refresh-circle"
-                  size={28}
-                  color={colors.textPrimary}
-                />
-                <Text style={styles.pedometerActionLabel}>Reset</Text>
+                <MaterialCommunityIcons name="refresh-circle" size={28} color={colors.textPrimary} />
+                <Text style={styles.pedometerActionLabel}>Nollaa</Text>
               </Pressable>
-
               <Pressable
                 style={styles.pedometerAction}
                 onPress={() => setShowPedometerModal(false)}
               >
-                <MaterialCommunityIcons
-                  name="close-circle-outline"
-                  size={28}
-                  color={colors.textMuted}
-                />
-                <Text style={[styles.pedometerActionLabel, { color: colors.textMuted }]}>Close</Text>
+                <MaterialCommunityIcons name="close-circle-outline" size={28} color={colors.textMuted} />
+                <Text style={[styles.pedometerActionLabel, { color: colors.textMuted }]}>Sulje</Text>
               </Pressable>
             </View>
           </View>
@@ -512,6 +693,25 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(10, 22, 48, 0.34)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.10)",
+  },
+  addButton: {
+    position: "absolute",
+    right: 12,
+    zIndex: 20,
+    minHeight: 46,
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: "rgba(10, 22, 48, 0.90)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+  },
+  addButtonText: {
+    color: colors.textPrimary,
+    fontSize: 14,
+    fontWeight: "600",
   },
   hutsPanel: {
     position: "absolute",
@@ -589,6 +789,93 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(23, 57, 109, 0.96)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.16)",
+  },
+  sightingPanel: {
+    position: "absolute",
+    left: 12,
+    right: 12,
+    zIndex: 22,
+    borderRadius: 18,
+    padding: 14,
+    backgroundColor: "rgba(10, 22, 48, 0.94)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+  },
+  sightingPanelHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  sightingTitle: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  doneButton: {
+    minHeight: 30,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+  },
+  doneButtonText: {
+    color: colors.textPrimary,
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  sightingHelp: {
+    color: colors.textSecondary,
+    fontSize: 13,
+    marginBottom: 12,
+  },
+  sightingInput: {
+    minHeight: 44,
+    borderRadius: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: colors.textPrimary,
+    fontSize: 14,
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+    marginBottom: 10,
+  },
+  sightingNoteInput: {
+    minHeight: 84,
+    textAlignVertical: "top",
+  },
+  sightingActions: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  sightingActionButton: {
+    flex: 1,
+    minHeight: 44,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cancelButton: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+  },
+  cancelButtonText: {
+    color: colors.textPrimary,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  saveButton: {
+    backgroundColor: colors.accent,
+  },
+  saveButtonText: {
+    color: colors.background,
+    fontSize: 14,
+    fontWeight: "700",
   },
   errorBanner: {
     position: "absolute",
