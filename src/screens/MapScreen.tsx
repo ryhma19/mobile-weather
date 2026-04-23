@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
+  Modal,
   Platform,
   Pressable,
   StyleSheet,
@@ -13,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { Marker, UrlTile } from "react-native-maps";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import * as Location from "expo-location";
+import { Pedometer } from "expo-sensors";
 import { CoordinatesBadge } from "../components/CoordinatesBadge";
 import { INITIAL_REGION, MML_BACKGROUND_TILE_URL } from "../constants/map";
 import {
@@ -42,6 +44,10 @@ export default function MapScreen() {
   const [wildernessHuts, setWildernessHuts] = useState<WildernessHut[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentRegion, setCurrentRegion] = useState<MapViewport>(INITIAL_REGION);
+  const [stepCount, setStepCount] = useState(0);
+  const [isPedometerAvailable, setIsPedometerAvailable] = useState(false);
+  const [isStepTracking, setIsStepTracking] = useState(true);
+  const [showPedometerModal, setShowPedometerModal] = useState(false);
 
   const availableCategories = useMemo(
     () => getAvailableCategories(wildernessHuts),
@@ -59,6 +65,24 @@ export default function MapScreen() {
     () => getVisibleHuts(wildernessHuts, selectedCategories, currentRegion),
     [currentRegion, selectedCategories, wildernessHuts]
   );
+
+  useEffect(() => {
+    Pedometer.isAvailableAsync().then(setIsPedometerAvailable);
+  }, []);
+
+  useEffect(() => {
+    let pedometerSub: ReturnType<typeof Pedometer.watchStepCount> | null = null;
+
+    if (isPedometerAvailable && isStepTracking) {
+      pedometerSub = Pedometer.watchStepCount((result) => {
+        setStepCount(result.steps);
+      });
+    }
+
+    return () => {
+      pedometerSub?.remove();
+    };
+  }, [isPedometerAvailable, isStepTracking]);
 
   useEffect(() => {
     let subscription: Location.LocationSubscription | null = null;
@@ -337,6 +361,91 @@ export default function MapScreen() {
         longitude={userLocation?.coords.longitude}
         topOffset={insets.top + 60}
       />
+
+      {isPedometerAvailable && (
+        <Pressable
+          style={[styles.pedometerBadge, { bottom: insets.bottom + 24 }]}
+          onPress={() => setShowPedometerModal(true)}
+        >
+          <MaterialCommunityIcons
+            name="shoe-print"
+            size={16}
+            color={isStepTracking ? colors.textPrimary : colors.textMuted}
+          />
+          <Text style={styles.pedometerText}>
+            {stepCount} steps
+          </Text>
+          <MaterialCommunityIcons
+            name={isStepTracking ? "pause" : "play"}
+            size={14}
+            color={colors.textMuted}
+          />
+        </Pressable>
+      )}
+
+      <Modal
+        visible={showPedometerModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowPedometerModal(false)}
+      >
+        <Pressable
+          style={styles.modalBackdrop}
+          onPress={() => setShowPedometerModal(false)}
+        >
+          <View style={[styles.pedometerModal, { bottom: insets.bottom + 88 }]}>
+            <Text style={styles.pedometerModalTitle}>Step counter</Text>
+            <Text style={styles.pedometerModalCount}>{stepCount}</Text>
+            <Text style={styles.pedometerModalLabel}>steps</Text>
+
+            <View style={styles.pedometerModalActions}>
+              <Pressable
+                style={styles.pedometerAction}
+                onPress={() => {
+                  setIsStepTracking((t) => !t);
+                  setShowPedometerModal(false);
+                }}
+              >
+                <MaterialCommunityIcons
+                  name={isStepTracking ? "pause-circle-outline" : "play-circle-outline"}
+                  size={28}
+                  color={colors.textPrimary}
+                />
+                <Text style={styles.pedometerActionLabel}>
+                  {isStepTracking ? "Pause" : "Resume"}
+                </Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.pedometerAction}
+                onPress={() => {
+                  setStepCount(0);
+                  setShowPedometerModal(false);
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="refresh-circle"
+                  size={28}
+                  color={colors.textPrimary}
+                />
+                <Text style={styles.pedometerActionLabel}>Reset</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.pedometerAction}
+                onPress={() => setShowPedometerModal(false)}
+              >
+                <MaterialCommunityIcons
+                  name="close-circle-outline"
+                  size={28}
+                  color={colors.textMuted}
+                />
+                <Text style={[styles.pedometerActionLabel, { color: colors.textMuted }]}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
@@ -494,5 +603,76 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 13,
     textAlign: "center",
+  },
+  pedometerBadge: {
+    position: "absolute",
+    alignSelf: "center",
+    left: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 999,
+    backgroundColor: "rgba(10, 22, 48, 0.88)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
+    zIndex: 20,
+  },
+  pedometerText: {
+    color: colors.textPrimary,
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+    paddingLeft: 12,
+  },
+  pedometerModal: {
+    position: "absolute",
+    left: 12,
+    width: 200,
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    backgroundColor: "rgba(10, 22, 48, 0.97)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.14)",
+    gap: 4,
+    zIndex: 30,
+  },
+  pedometerModalTitle: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  pedometerModalCount: {
+    color: colors.textPrimary,
+    fontSize: 48,
+    fontWeight: "800",
+    lineHeight: 56,
+  },
+  pedometerModalLabel: {
+    color: colors.textMuted,
+    fontSize: 13,
+  },
+  pedometerModalActions: {
+    flexDirection: "row",
+    gap: 16,
+    marginTop: 16,
+  },
+  pedometerAction: {
+    alignItems: "center",
+    gap: 4,
+  },
+  pedometerActionLabel: {
+    color: colors.textPrimary,
+    fontSize: 11,
+    fontWeight: "600",
   },
 });
