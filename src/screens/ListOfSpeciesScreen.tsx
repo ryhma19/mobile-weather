@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   Pressable,
   ScrollView,
@@ -13,6 +14,7 @@ import {
   Platform,
   UIManager,
 } from 'react-native'
+import Svg, { G, Path, Text as SvgText } from 'react-native-svg'
 import { colors } from '../theme/colors'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import {
@@ -46,15 +48,15 @@ const CATEGORY_DATA: CategoryGroup[] = [
   { mvlId: 'MVL.22',  title: 'Algae',                titleFi: 'Levät' },
   { mvlId: 'MVL.23',  title: 'Mosses',               titleFi: 'Sammalet' },
   { mvlId: 'MVL.232', title: 'Insects & Arachnids',  titleFi: 'Hyönteiset ja hämähäkkieläimet' },
-  { mvlId: 'MVL.233', title: 'Fungi & Lichens',       titleFi: 'Sienet ja jäkälät' },
+  { mvlId: 'MVL.233', title: 'Fungi & Lichens',      titleFi: 'Sienet ja jäkälät' },
   { mvlId: 'MVL.26',  title: 'Reptiles & Amphibians', titleFi: 'Matelijat ja sammakkoeläimet' },
   { mvlId: 'MVL.27',  title: 'Fish',                 titleFi: 'Kalat' },
   { mvlId: 'MVL.28',  title: 'Worms',                titleFi: 'Madot' },
-  { mvlId: 'MVL.343', title: 'Vascular Plants',       titleFi: 'Putkilokasvit' },
-  { mvlId: 'MVL.37',  title: 'Myriapods',             titleFi: 'Tuhatjalkaiset' },
-  { mvlId: 'MVL.39',  title: 'Crustaceans',           titleFi: 'Äyriäiset' },
-  { mvlId: 'MVL.40',  title: 'Molluscs',              titleFi: 'Nilviäiset' },
-  { mvlId: 'MVL.41',  title: 'Other Organisms',       titleFi: 'Muut organismit' },
+  { mvlId: 'MVL.343', title: 'Vascular Plants',      titleFi: 'Putkilokasvit' },
+  { mvlId: 'MVL.37',  title: 'Myriapods',            titleFi: 'Tuhatjalkaiset' },
+  { mvlId: 'MVL.39',  title: 'Crustaceans',          titleFi: 'Äyriäiset' },
+  { mvlId: 'MVL.40',  title: 'Molluscs',             titleFi: 'Nilviäiset' },
+  { mvlId: 'MVL.41',  title: 'Other Organisms',      titleFi: 'Muut organismit' },
 ]
 
 const FOREIGN_KEY = 'FOREIGN'
@@ -74,9 +76,282 @@ const ENDANGERMENT_DESCRIPTIONS: Record<string, { en: string; fi: string }> = {
   NA: { en: 'Not Assessed',          fi: 'Arvioimatta jätetty' },
 }
 
+const ENDANGERMENT_META: Record<string, { labelFi: string; color: string }> = {
+  RE: { labelFi: 'Hävinnyt',                 color: '#5c0000' },
+  CR: { labelFi: 'Äärimmäisen uhanalainen',  color: '#8b0000' },
+  EN: { labelFi: 'Erittäin uhanalainen',     color: '#cc3300' },
+  VU: { labelFi: 'Vaarantunut',              color: '#e86800' },
+  NT: { labelFi: 'Silmälläpidettävä',        color: '#c9a800' },
+  LC: { labelFi: 'Elinvoimainen',            color: '#4a8f00' },
+  DD: { labelFi: 'Puutteellisesti tunnettu', color: '#5a6070' },
+  NA: { labelFi: 'Arvioimatta',              color: '#2a3448' },
+}
+
 const SORT_LABELS: Record<SortMode, string> = {
   relevance: 'Relevance', az: 'A-Z', za: 'Z-A', endangerment: 'Endangerment',
 }
+
+// ── Pie chart helpers ─────────────────────────────────────────
+const { width: SCREEN_WIDTH } = Dimensions.get('window')
+const PIE_SIZE = Math.min(SCREEN_WIDTH - 80, 220)
+const PIE_R = PIE_SIZE / 2
+const PIE_INNER_R = PIE_R * 0.52
+const PIE_CX = PIE_R
+const PIE_CY = PIE_R
+
+function polarToCartesian(cx: number, cy: number, r: number, deg: number) {
+  const rad = ((deg - 90) * Math.PI) / 180
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) }
+}
+
+function slicePath(cx: number, cy: number, r: number, ir: number, start: number, end: number) {
+  const large = end - start > 180 ? 1 : 0
+  const o1 = polarToCartesian(cx, cy, r, start)
+  const o2 = polarToCartesian(cx, cy, r, end)
+  const i1 = polarToCartesian(cx, cy, ir, end)
+  const i2 = polarToCartesian(cx, cy, ir, start)
+  return `M ${o1.x} ${o1.y} A ${r} ${r} 0 ${large} 1 ${o2.x} ${o2.y} L ${i1.x} ${i1.y} A ${ir} ${ir} 0 ${large} 0 ${i2.x} ${i2.y} Z`
+}
+
+type SliceData = { code: string; labelFi: string; count: number; color: string; percentage: number }
+
+function buildSlices(names: string[]): SliceData[] {
+  const map = endangermentMap as Record<string, string>
+  const counts: Record<string, number> = {}
+  for (const n of names) {
+    const code = map[n] ?? 'NA'
+    counts[code] = (counts[code] ?? 0) + 1
+  }
+  const total = names.length || 1
+  return ['RE','CR','EN','VU','NT','LC','DD','NA']
+    .filter(c => (counts[c] ?? 0) > 0)
+    .map(c => ({
+      code: c,
+      labelFi: ENDANGERMENT_META[c].labelFi,
+      count: counts[c] ?? 0,
+      color: ENDANGERMENT_META[c].color,
+      percentage: ((counts[c] ?? 0) / total) * 100,
+    }))
+}
+
+function DonutChart({ slices, active, onPress }: {
+  slices: SliceData[]
+  active: string | null
+  onPress: (code: string) => void
+}) {
+  const total = slices.reduce((a, b) => a + b.count, 0)
+  const activeSlice = slices.find(s => s.code === active)
+  let angle = 0
+  const ranges = slices.map(s => {
+    const start = angle
+    angle += (s.count / total) * 360
+    return { ...s, startAngle: start, endAngle: angle }
+  })
+  return (
+    <Svg width={PIE_SIZE} height={PIE_SIZE}>
+      <G>
+        {ranges.map(s => {
+          const isActive = active === s.code
+          const r = isActive ? PIE_R * 1.05 : PIE_R
+          return (
+            <Path
+              key={s.code}
+              d={slicePath(PIE_CX, PIE_CY, r, PIE_INNER_R, s.startAngle, s.endAngle)}
+              fill={s.color}
+              opacity={active && !isActive ? 0.3 : 1}
+              stroke="rgba(255,255,255,0.08)"
+              strokeWidth={1.5}
+              onPress={() => onPress(s.code)}
+            />
+          )
+        })}
+      </G>
+      {activeSlice ? (
+        <>
+          <SvgText x={PIE_CX} y={PIE_CY - 10} textAnchor="middle" fill="#fff" fontSize={18} fontWeight="700">
+            {activeSlice.percentage.toFixed(1)}%
+          </SvgText>
+          <SvgText x={PIE_CX} y={PIE_CY + 8} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize={10}>
+            {activeSlice.count.toLocaleString()} lajia
+          </SvgText>
+          <SvgText x={PIE_CX} y={PIE_CY + 22} textAnchor="middle" fill={activeSlice.color} fontSize={11} fontWeight="700">
+            {activeSlice.code}
+          </SvgText>
+        </>
+      ) : (
+        <>
+          <SvgText x={PIE_CX} y={PIE_CY - 5} textAnchor="middle" fill="#fff" fontSize={13} fontWeight="600">
+            {total.toLocaleString()}
+          </SvgText>
+          <SvgText x={PIE_CX} y={PIE_CY + 11} textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize={10}>
+            lajia
+          </SvgText>
+        </>
+      )}
+    </Svg>
+  )
+}
+
+// ── Stats view ────────────────────────────────────────────────
+function StatsView({ onBack }: { onBack: () => void }) {
+  const insets = useSafeAreaInsets()
+  const map = endangermentMap as Record<string, string>
+  const allNames = Object.keys(map)
+  const totalSpecies = allNames.length
+  const threatened = allNames.filter(n => ['RE','CR','EN','VU'].includes(map[n] ?? '')).length
+  const threatenedPct = ((threatened / totalSpecies) * 100).toFixed(1)
+
+  const globalSlices = React.useMemo(() => buildSlices(allNames), [])
+  const [activeGlobal, setActiveGlobal] = React.useState<string | null>(null)
+
+  return (
+    <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
+      <View style={styles.content}>
+        <Pressable style={styles.backButton} onPress={onBack}>
+          <Text style={styles.backButtonText}>← Takaisin</Text>
+        </Pressable>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}>
+          <Text style={[styles.title, { marginBottom: 20 }]}>Tilastot</Text>
+
+          {/* Yhteenveto */}
+          <View style={statsStyles.summaryRow}>
+            <View style={statsStyles.summaryCard}>
+              <Text style={statsStyles.summaryValue}>{totalSpecies.toLocaleString()}</Text>
+              <Text style={statsStyles.summaryLabel}>Lajia yhteensä</Text>
+            </View>
+            <View style={[statsStyles.summaryCard, { borderColor: '#cc3300' }]}>
+              <Text style={[statsStyles.summaryValue, { color: '#cc3300' }]}>{threatened.toLocaleString()}</Text>
+              <Text style={statsStyles.summaryLabel}>Uhanalaista</Text>
+            </View>
+            <View style={[statsStyles.summaryCard, { borderColor: '#c9a800' }]}>
+              <Text style={[statsStyles.summaryValue, { color: '#c9a800' }]}>{threatenedPct}%</Text>
+              <Text style={statsStyles.summaryLabel}>Uhanalaisuusaste</Text>
+            </View>
+          </View>
+
+          {/* donut chart */}
+          <View style={statsStyles.section}>
+            <Text style={statsStyles.sectionTitle}>Uhanalaisuusjakauma</Text>
+            <Text style={statsStyles.sectionSubtitle}>Paina siivua tai luokitusta nähdäksesi tiedot</Text>
+            <View style={statsStyles.chartRow}>
+              <DonutChart
+                slices={globalSlices}
+                active={activeGlobal}
+                onPress={c => setActiveGlobal(prev => prev === c ? null : c)}
+              />
+              <View style={statsStyles.legend}>
+                {globalSlices.map(s => (
+                  <Pressable
+                    key={s.code}
+                    style={[
+                      statsStyles.legendRow,
+                      activeGlobal === s.code && statsStyles.legendRowActive,
+                      activeGlobal && activeGlobal !== s.code && statsStyles.legendRowDim,
+                    ]}
+                    onPress={() => setActiveGlobal(prev => prev === s.code ? null : s.code)}
+                  >
+                    <View style={[statsStyles.legendDot, { backgroundColor: s.color }]} />
+                    <Text style={statsStyles.legendCode}>{s.code}</Text>
+                    <Text style={statsStyles.legendPct}>{s.percentage.toFixed(0)}%</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+
+            {activeGlobal && (() => {
+              const s = globalSlices.find(x => x.code === activeGlobal)!
+              return (
+                <View style={[statsStyles.activeBox, { borderColor: s.color }]}>
+                  <Text style={[statsStyles.activeCode, { color: s.color }]}>{s.code}</Text>
+                  <Text style={statsStyles.activeLabelFi}>{s.labelFi}</Text>
+                  <Text style={statsStyles.activeLabelEn}>{ENDANGERMENT_DESCRIPTIONS[s.code]?.en}</Text>
+                  <Text style={statsStyles.activeCount}>{s.count.toLocaleString()} lajia · {s.percentage.toFixed(1)}%</Text>
+                </View>
+              )
+            })()}
+          </View>
+
+          {/* Bar chart */}
+          <View style={statsStyles.section}>
+            <Text style={statsStyles.sectionTitle}>Luokat eriteltynä</Text>
+            {globalSlices.map(s => (
+              <View key={s.code} style={statsStyles.barRow}>
+                <Text style={statsStyles.barCode}>{s.code}</Text>
+                <View style={statsStyles.barBg}>
+                  <View style={[statsStyles.barFill, { width: `${s.percentage}%` as any, backgroundColor: s.color }]} />
+                </View>
+                <Text style={statsStyles.barCount}>{s.count.toLocaleString()}</Text>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+    </View>
+  )
+}
+
+const statsStyles = StyleSheet.create({
+  summaryRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
+  summaryCard: {
+    flex: 1,
+    backgroundColor: colors.cardDark,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.outline,
+    paddingVertical: 14,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+  },
+  summaryValue: { color: '#ffffff', fontSize: 18, fontWeight: '800', marginBottom: 4 },
+  summaryLabel: { color: 'rgba(255,255,255,0.45)', fontSize: 10, textAlign: 'center' },
+  section: {
+    backgroundColor: colors.cardDark,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.outline,
+    padding: 16,
+    marginBottom: 16,
+  },
+  sectionTitle: { color: '#ffffff', fontSize: 17, fontWeight: '700', marginBottom: 4 },
+  sectionSubtitle: { color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 14 },
+  chartRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  legend: { flex: 1, gap: 2 },
+  legendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderRadius: 8,
+  },
+  legendRowActive: { backgroundColor: 'rgba(255,255,255,0.1)' },
+  legendRowDim: { opacity: 0.3 },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  legendCode: { color: '#ffffff', fontSize: 12, fontWeight: '700', flex: 1 },
+  legendPct: { color: 'rgba(255,255,255,0.5)', fontSize: 11 },
+  activeBox: {
+    marginTop: 14,
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 12,
+    gap: 2,
+  },
+  activeCode: { fontSize: 22, fontWeight: '800' },
+  activeLabelFi: { color: '#ffffff', fontSize: 15, fontWeight: '600' },
+  activeLabelEn: { color: 'rgba(255,255,255,0.5)', fontSize: 12 },
+  activeCount: { color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 4 },
+  barRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  barCode: { color: '#ffffff', fontSize: 12, fontWeight: '700', width: 28 },
+  barBg: {
+    flex: 1,
+    height: 8,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  barFill: { height: '100%', borderRadius: 4 },
+  barCount: { color: 'rgba(255,255,255,0.5)', fontSize: 11, width: 42, textAlign: 'right' },
+})
 
 function getMatchScore(item: SpeciesItem, query: string) {
   const q = query.trim().toLowerCase()
@@ -107,7 +382,6 @@ function EndangermentBadge({ scientificName }: { scientificName: string }) {
   const { bg, text } = getEndangermentColors(code)
   const [showPopup, setShowPopup] = React.useState(false)
   const desc = ENDANGERMENT_DESCRIPTIONS[code]
-
   return (
     <View>
       <Pressable
@@ -151,10 +425,7 @@ function AccordionSection({ title, text }: { title: string; text: string }) {
 }
 
 const accordionStyles = StyleSheet.create({
-  container: {
-    borderTopWidth: 1,
-    borderTopColor: colors.outline,
-  },
+  container: { borderTopWidth: 1, borderTopColor: colors.outline },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -168,6 +439,7 @@ const accordionStyles = StyleSheet.create({
   text: { color: colors.textSecondary, fontSize: 14, lineHeight: 22 },
 })
 
+// ── Main screen ───────────────────────────────────────────────
 export default function ListOfSpeciesScreen() {
   const insets = useSafeAreaInsets()
 
@@ -181,6 +453,7 @@ export default function ListOfSpeciesScreen() {
   const [selectedSpecies, setSelectedSpecies] = React.useState<SpeciesDetail | null>(null)
   const [detailLoading, setDetailLoading] = React.useState(false)
   const [detailError, setDetailError] = React.useState('')
+  const [showStats, setShowStats] = React.useState(false)
 
   const fetchCategory = async (category: Category) => {
     setSelectedCategory(category)
@@ -193,17 +466,17 @@ export default function ListOfSpeciesScreen() {
       setLoading(true)
       setError('')
       if (category === FOREIGN_KEY) {
-       
+        const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL
         const allMvlIds = CATEGORY_DATA.map(c => c.mvlId)
         const results = await Promise.all(
           allMvlIds.map(id =>
-            fetch(`http://10.0.2.2:3001/species/category/${encodeURIComponent(id)}/foreign`)
+            fetch(`${backendUrl}/species/category/${encodeURIComponent(id)}/foreign`)
               .then(r => r.json())
               .catch(() => [])
           )
         )
         const seen = new Set<string>()
-        const combined = results.flat().filter(s => {
+        const combined = results.flat().filter((s: SpeciesItem) => {
           if (seen.has(s.id)) return false
           seen.add(s.id)
           return true
@@ -226,11 +499,7 @@ export default function ListOfSpeciesScreen() {
     setShowSortMenu(false)
     setSelectedSpecies(null)
     setDetailError('')
-    if (!text.trim()) {
-      setSpecies([])
-      setError('')
-      return
-    }
+    if (!text.trim()) { setSpecies([]); setError(''); return }
     setSortMode('relevance')
     try {
       setLoading(true)
@@ -283,6 +552,8 @@ export default function ListOfSpeciesScreen() {
 
   const showCategories = !searchText.trim() && !selectedCategory
 
+  if (showStats) return <StatsView onBack={() => setShowStats(false)} />
+
   if (selectedSpecies || detailLoading || detailError) {
     return (
       <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
@@ -290,30 +561,20 @@ export default function ListOfSpeciesScreen() {
           <Pressable style={styles.backButton} onPress={() => { setSelectedSpecies(null); setDetailError('') }}>
             <Text style={styles.backButtonText}>← Back to list</Text>
           </Pressable>
-
           {detailLoading && <ActivityIndicator color={colors.textPrimary} />}
           {!!detailError && <Text style={styles.errorText}>{detailError}</Text>}
-
           {!!selectedSpecies && (
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}>
               <View style={styles.detailCard}>
                 {!!selectedSpecies.imageUrl && (
-                  <Image
-                    source={{ uri: selectedSpecies.imageUrl }}
-                    style={styles.detailHeroImage}
-                    resizeMode="cover"
-                  />
+                  <Image source={{ uri: selectedSpecies.imageUrl }} style={styles.detailHeroImage} resizeMode="cover" />
                 )}
                 <View style={styles.detailCardBody}>
-                  <Text style={styles.detailFinnishName}>
-                    {selectedSpecies.finnishName || selectedSpecies.scientificName}
-                  </Text>
+                  <Text style={styles.detailFinnishName}>{selectedSpecies.finnishName || selectedSpecies.scientificName}</Text>
                   <Text style={styles.detailScientificName}>{selectedSpecies.scientificName}</Text>
-
                   <View style={{ marginBottom: 16 }}>
                     <EndangermentBadge scientificName={selectedSpecies.scientificName} />
                   </View>
-
                   {(!!selectedSpecies.kingdomScientificName || selectedSpecies.informalGroups.length > 0) && (
                     <View style={styles.metaSection}>
                       {!!selectedSpecies.kingdomScientificName && (
@@ -330,7 +591,6 @@ export default function ListOfSpeciesScreen() {
                       )}
                     </View>
                   )}
-
                   {selectedSpecies.infoSections.map((section, i) => (
                     <AccordionSection key={`${section.title}-${i}`} title={section.title} text={section.text} />
                   ))}
@@ -346,7 +606,17 @@ export default function ListOfSpeciesScreen() {
   return (
     <View style={[styles.container, { paddingTop: insets.top + 12, paddingBottom: 60 }]}>
       <View style={styles.content}>
-        <Text style={styles.title}>Species</Text>
+
+        {/* Header with stats button */}
+        <View style={styles.headerRow}>
+          <View style={{ flex: 1 }} />
+          <Text style={styles.title}>Species</Text>
+          <View style={{ flex: 1, alignItems: 'flex-end' }}>
+            <Pressable style={styles.statsButton} onPress={() => setShowStats(true)}>
+              <Text style={styles.statsButtonText}>📊</Text>
+            </Pressable>
+          </View>
+        </View>
 
         <TextInput
           style={styles.searchInput}
@@ -450,22 +720,28 @@ export default function ListOfSpeciesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 24,
+  container: { flex: 1, backgroundColor: colors.background },
+  content: { flex: 1, paddingHorizontal: 20, paddingTop: 24 },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
   },
   title: {
     color: colors.textPrimary,
     fontSize: 28,
     fontWeight: '700',
     textAlign: 'center',
-    marginBottom: 24,
   },
+  statsButton: {
+    backgroundColor: colors.surfaceVariant,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.outline,
+    paddingHorizontal: 11,
+    paddingVertical: 7,
+  },
+  statsButtonText: { fontSize: 18 },
   searchInput: {
     backgroundColor: colors.surfaceVariant,
     color: colors.textPrimary,
@@ -487,16 +763,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginBottom: 12,
   },
-  categoryBadgeText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  sortMenuContainer: {
-    alignSelf: 'flex-end',
-    marginBottom: 12,
-    zIndex: 10,
-  },
+  categoryBadgeText: { color: colors.textPrimary, fontSize: 14, fontWeight: '600' },
+  sortMenuContainer: { alignSelf: 'flex-end', marginBottom: 12, zIndex: 10 },
   sortButton: {
     backgroundColor: colors.surfaceVariant,
     borderRadius: 16,
@@ -505,11 +773,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  sortButtonText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
-  },
+  sortButtonText: { color: colors.textPrimary, fontSize: 14, fontWeight: '600' },
   sortDropdown: {
     marginTop: 6,
     backgroundColor: colors.surfaceVariant,
@@ -518,20 +782,9 @@ const styles = StyleSheet.create({
     borderColor: colors.outline,
     overflow: 'hidden',
   },
-  sortDropdownItem: {
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-  },
-  sortDropdownText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  errorText: {
-    color: '#ffb3b3',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
+  sortDropdownItem: { paddingHorizontal: 12, paddingVertical: 10 },
+  sortDropdownText: { color: colors.textPrimary, fontSize: 14, fontWeight: '600' },
+  errorText: { color: '#ffb3b3', marginBottom: 12, textAlign: 'center' },
   categoryGroup: {
     backgroundColor: colors.cardDark,
     borderRadius: 24,
@@ -546,21 +799,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
-  categoryCardTitle: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  categoryCardSubtitle: {
-    color: colors.textSecondary,
-    fontSize: 12,
-    marginTop: 2,
-  },
-  categoryCardArrow: {
-    color: colors.textSecondary,
-    fontSize: 20,
-  },
-  // Species list
+  categoryCardTitle: { color: colors.textPrimary, fontSize: 16, fontWeight: '700' },
+  categoryCardSubtitle: { color: colors.textSecondary, fontSize: 12, marginTop: 2 },
+  categoryCardArrow: { color: colors.textSecondary, fontSize: 20 },
   speciesCard: {
     backgroundColor: colors.cardDark,
     borderRadius: 24,
@@ -575,25 +816,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 12,
   },
-  speciesCardNames: {
-    flex: 1,
-  },
-  speciesCardTitle: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  speciesCardScientific: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  speciesCardMeta: {
-    color: colors.textSecondary,
-    fontSize: 12,
-    marginTop: 6,
-  },
+  speciesCardNames: { flex: 1 },
+  speciesCardTitle: { color: colors.textPrimary, fontSize: 16, fontWeight: '700', marginBottom: 4 },
+  speciesCardScientific: { color: colors.textSecondary, fontSize: 14, lineHeight: 20 },
+  speciesCardMeta: { color: colors.textSecondary, fontSize: 12, marginTop: 6 },
   badge: {
     alignSelf: 'flex-start',
     minWidth: 44,
@@ -601,11 +827,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 8,
   },
-  badgeText: {
-    fontSize: 13,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
+  badgeText: { fontSize: 13, fontWeight: '700', textAlign: 'center' },
   badgePopup: {
     marginTop: 10,
     backgroundColor: 'rgba(20,20,30,0.88)',
@@ -628,23 +850,9 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
     borderBottomColor: 'rgba(20,20,30,0.88)',
   },
-  badgePopupEn: {
-    color: '#ffffff',
-    fontSize: 13,
-    fontWeight: '600',
-    marginBottom: 2,
-  },
-  badgePopupFi: {
-    color: 'rgba(255,255,255,0.65)',
-    fontSize: 12,
-  },
-  emptyText: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  // Detail view
+  badgePopupEn: { color: '#ffffff', fontSize: 13, fontWeight: '600', marginBottom: 2 },
+  badgePopupFi: { color: 'rgba(255,255,255,0.65)', fontSize: 12 },
+  emptyText: { color: colors.textSecondary, fontSize: 14, textAlign: 'center', marginTop: 20 },
   backButton: {
     alignSelf: 'flex-start',
     backgroundColor: colors.surfaceVariant,
@@ -655,11 +863,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginBottom: 16,
   },
-  backButtonText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
-  },
+  backButtonText: { color: colors.textPrimary, fontSize: 14, fontWeight: '600' },
   detailCard: {
     backgroundColor: colors.cardDark,
     borderRadius: 24,
@@ -667,27 +871,10 @@ const styles = StyleSheet.create({
     borderColor: colors.outline,
     overflow: 'hidden',
   },
-  detailHeroImage: {
-    width: '100%',
-    height: 220,
-  },
-  detailCardBody: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    paddingBottom: 4,
-  },
-  detailFinnishName: {
-    color: colors.textPrimary,
-    fontSize: 22,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  detailScientificName: {
-    color: colors.textSecondary,
-    fontSize: 15,
-    fontStyle: 'italic',
-    marginBottom: 12,
-  },
+  detailHeroImage: { width: '100%', height: 220 },
+  detailCardBody: { paddingTop: 20, paddingHorizontal: 20, paddingBottom: 4 },
+  detailFinnishName: { color: colors.textPrimary, fontSize: 22, fontWeight: '700', marginBottom: 4 },
+  detailScientificName: { color: colors.textSecondary, fontSize: 15, fontStyle: 'italic', marginBottom: 12 },
   metaSection: {
     backgroundColor: colors.surfaceVariant,
     borderRadius: 14,
@@ -696,22 +883,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  metaRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingVertical: 2,
-  },
-  metaLabel: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    fontWeight: '600',
-    flex: 1,
-  },
-  metaValue: {
-    color: colors.textPrimary,
-    fontSize: 13,
-    flex: 2,
-    textAlign: 'right',
-  },
+  metaRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingVertical: 2 },
+  metaLabel: { color: colors.textSecondary, fontSize: 13, fontWeight: '600', flex: 1 },
+  metaValue: { color: colors.textPrimary, fontSize: 13, flex: 2, textAlign: 'right' },
 })
