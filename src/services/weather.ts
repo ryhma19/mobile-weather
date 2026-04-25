@@ -29,9 +29,9 @@ export async function fetchWeatherByCoordinates(
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
     `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation` +
-    `&hourly=temperature_2m` +
+    `&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,dew_point_2m,precipitation` +
     `&timezone=auto` +
-    `&forecast_days=1`
+    `&forecast_days=2`
 
   const weatherResponse = await fetch(weatherUrl)
 
@@ -44,14 +44,37 @@ export async function fetchWeatherByCoordinates(
   const current = weatherJson.current
   const hourlyTimes = weatherJson.hourly.time
   const hourlyTemperatures = weatherJson.hourly.temperature_2m
+  const hourlyFeelsLike = weatherJson.hourly.apparent_temperature
+  const hourlyHumidity = weatherJson.hourly.relative_humidity_2m
+  const hourlyPrecipitationProbability = weatherJson.hourly.precipitation_probability
+  const hourlyDewPoint = weatherJson.hourly.dew_point_2m
+  const hourlyPrecipitation = weatherJson.hourly.precipitation
 
-  const currentHour = new Date().getHours()
+  const currentHourStart = new Date()
+  currentHourStart.setMinutes(0, 0, 0)
+
+  let startIndex = 0
+
+  for (let i = 0; i < hourlyTimes.length; i++) {
+    const hourlyDate = new Date(hourlyTimes[i])
+
+    if (hourlyDate.getTime() >= currentHourStart.getTime()) {
+      startIndex = i
+      break
+    }
+  }
+
   const nextHours: HourlyWeatherItem[] = []
 
-  for (let i = currentHour; i < hourlyTimes.length && nextHours.length < 6; i++) {
+  for (let i = startIndex; i < hourlyTimes.length && nextHours.length < 24; i++) {
     nextHours.push({
       time: formatHour(hourlyTimes[i]),
       temperature: Math.round(hourlyTemperatures[i]),
+      feelsLike: Math.round(hourlyFeelsLike[i]),
+      humidity: Math.round(hourlyHumidity[i]),
+      precipitationProbability: Math.round(hourlyPrecipitationProbability[i]),
+      dewPoint: Math.round(hourlyDewPoint[i]),
+      precipitation: Math.round(hourlyPrecipitation[i] * 10) / 10,
     })
   }
 

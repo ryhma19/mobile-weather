@@ -172,7 +172,7 @@ export default function OverviewScreen() {
                   <Text style={styles.hourTemp}>--°</Text>
                 </View>
               ))
-            : weather.hourly.map((item, index) => (
+            : weather.hourly.slice(0, 6).map((item, index) => (
                 <View key={`${item.time}-${index}`} style={styles.hourItem}>
                   <Text style={styles.hourText}>{item.time}</Text>
                   <Text style={styles.hourTemp}>

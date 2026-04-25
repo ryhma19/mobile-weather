@@ -1,6 +1,11 @@
 export type HourlyWeatherItem = {
   time: string
   temperature: number
+  feelsLike: number
+  humidity: number
+  precipitationProbability: number
+  dewPoint: number
+  precipitation: number
 }
 
 export type WeatherData = {

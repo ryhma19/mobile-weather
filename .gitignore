@@ -42,4 +42,3 @@ yarn-error.*
 .env
 
 # specific files
-src/constants/plantnet.ts
