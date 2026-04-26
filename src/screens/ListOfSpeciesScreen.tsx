@@ -26,6 +26,7 @@ import {
 } from '../services/species'
 import endangermentMap from '../../assets/endangerment.json'
 
+//androidin asetteluanimaatiot
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -42,6 +43,7 @@ type CategoryGroup = {
   title: string
 }
 
+//kategoriat MVL-tunnuksineen suomeksi ja englanniksi
 const CATEGORY_DATA: CategoryGroup[] = [
   { mvlId: 'MVL.1',   title: 'Birds',               titleFi: 'Linnut' },
   { mvlId: 'MVL.2',   title: 'Mammals',              titleFi: 'Nisäkkäät' },
@@ -59,12 +61,15 @@ const CATEGORY_DATA: CategoryGroup[] = [
   { mvlId: 'MVL.41',  title: 'Other Organisms',      titleFi: 'Muut organismit' },
 ]
 
+//avain ulkomaisille lajeille 
 const FOREIGN_KEY = 'FOREIGN'
 
+//uhanalaisuusluokkien järjestys vakavimmasta turvallisimpaan
 const ENDANGERMENT_PRIORITY: Record<string, number> = {
   RE: 7, CR: 6, EN: 5, VU: 4, NT: 3, LC: 2, DD: 1, NA: 0,
 }
 
+//uhanalaisuuskoodien kuvaukset suomeksi ja englanniksi
 const ENDANGERMENT_DESCRIPTIONS: Record<string, { en: string; fi: string }> = {
   RE: { en: 'Regionally Extinct',    fi: 'Hävinnyt alueelta' },
   CR: { en: 'Critically Endangered', fi: 'Äärimmäisen uhanalainen' },
@@ -76,6 +81,7 @@ const ENDANGERMENT_DESCRIPTIONS: Record<string, { en: string; fi: string }> = {
   NA: { en: 'Not Assessed',          fi: 'Arvioimatta jätetty' },
 }
 
+//uhanalaisuuskoodien värit ja suomenkieliset nimet
 const ENDANGERMENT_META: Record<string, { labelFi: string; color: string }> = {
   RE: { labelFi: 'Hävinnyt',                 color: '#5c0000' },
   CR: { labelFi: 'Äärimmäisen uhanalainen',  color: '#8b0000' },
@@ -87,11 +93,12 @@ const ENDANGERMENT_META: Record<string, { labelFi: string; color: string }> = {
   NA: { labelFi: 'Arvioimatta',              color: '#2a3448' },
 }
 
+//lajittelutilat käyttöliittymässä näytettävinä niminä
 const SORT_LABELS: Record<SortMode, string> = {
   relevance: 'Relevance', az: 'A-Z', za: 'Z-A', endangerment: 'Endangerment',
 }
 
-// ── Pie chart helpers ─────────────────────────────────────────
+//donitsikaavioon tarvittavat vakiot
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
 const PIE_SIZE = Math.min(SCREEN_WIDTH - 80, 220)
 const PIE_R = PIE_SIZE / 2
@@ -99,11 +106,13 @@ const PIE_INNER_R = PIE_R * 0.52
 const PIE_CX = PIE_R
 const PIE_CY = PIE_R
 
+//muunnetaan kulma-arvo karteesisiksi koordinaateiksi ympyrän kehällä
 function polarToCartesian(cx: number, cy: number, r: number, deg: number) {
   const rad = ((deg - 90) * Math.PI) / 180
   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) }
 }
 
+//rakennetaan SVG-polku yhdelle rengaskaavion siivulle
 function slicePath(cx: number, cy: number, r: number, ir: number, start: number, end: number) {
   const large = end - start > 180 ? 1 : 0
   const o1 = polarToCartesian(cx, cy, r, start)
@@ -115,6 +124,7 @@ function slicePath(cx: number, cy: number, r: number, ir: number, start: number,
 
 type SliceData = { code: string; labelFi: string; count: number; color: string; percentage: number }
 
+//lasketaan donitsikaavioon tarvittavat siivut lajinimien perusteella
 function buildSlices(names: string[]): SliceData[] {
   const map = endangermentMap as Record<string, string>
   const counts: Record<string, number> = {}
@@ -134,6 +144,7 @@ function buildSlices(names: string[]): SliceData[] {
     }))
 }
 
+//donitsikaaviokomponentti, painettavat siivut ja keskiteksti
 function DonutChart({ slices, active, onPress }: {
   slices: SliceData[]
   active: string | null
@@ -166,6 +177,7 @@ function DonutChart({ slices, active, onPress }: {
           )
         })}
       </G>
+      {/*näytetään keskellä joko valitun siivun prosentti tai lajien kokonaismäärä*/}
       {activeSlice ? (
         <>
           <SvgText x={PIE_CX} y={PIE_CY - 10} textAnchor="middle" fill="#fff" fontSize={18} fontWeight="700">
@@ -192,7 +204,7 @@ function DonutChart({ slices, active, onPress }: {
   )
 }
 
-// ── Stats view ────────────────────────────────────────────────
+//tilastonäkymä yhteenveto, rengaskaavio ja palkkikaavio kaikista lajeista
 function StatsView({ onBack }: { onBack: () => void }) {
   const insets = useSafeAreaInsets()
   const map = endangermentMap as Record<string, string>
@@ -201,6 +213,7 @@ function StatsView({ onBack }: { onBack: () => void }) {
   const threatened = allNames.filter(n => ['RE','CR','EN','VU'].includes(map[n] ?? '')).length
   const threatenedPct = ((threatened / totalSpecies) * 100).toFixed(1)
 
+  //lasketaan siivut valmiiksi muistiin, koska koko lajilista on suuri
   const globalSlices = React.useMemo(() => buildSlices(allNames), [])
   const [activeGlobal, setActiveGlobal] = React.useState<string | null>(null)
 
@@ -213,7 +226,7 @@ function StatsView({ onBack }: { onBack: () => void }) {
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}>
           <Text style={[styles.title, { marginBottom: 20 }]}>Tilastot</Text>
 
-          {/* Yhteenveto */}
+          {/*yhteenveto kolmessa kortissa*/}
           <View style={statsStyles.summaryRow}>
             <View style={statsStyles.summaryCard}>
               <Text style={statsStyles.summaryValue}>{totalSpecies.toLocaleString()}</Text>
@@ -229,7 +242,7 @@ function StatsView({ onBack }: { onBack: () => void }) {
             </View>
           </View>
 
-          {/* donut chart */}
+          {/*donitsikaavio uhanalaisuusjakaumasta*/}
           <View style={statsStyles.section}>
             <Text style={statsStyles.sectionTitle}>Uhanalaisuusjakauma</Text>
             <Text style={statsStyles.sectionSubtitle}>Paina siivua tai luokitusta nähdäksesi tiedot</Text>
@@ -258,6 +271,7 @@ function StatsView({ onBack }: { onBack: () => void }) {
               </View>
             </View>
 
+            {/* näytetään valitun luokan tiedot tietoruudussa */}
             {activeGlobal && (() => {
               const s = globalSlices.find(x => x.code === activeGlobal)!
               return (
@@ -271,7 +285,7 @@ function StatsView({ onBack }: { onBack: () => void }) {
             })()}
           </View>
 
-          {/* Bar chart */}
+          {/*Vaakapalkkikaavio jossa luokat on eritelty*/}
           <View style={statsStyles.section}>
             <Text style={statsStyles.sectionTitle}>Luokat eriteltynä</Text>
             {globalSlices.map(s => (
@@ -353,6 +367,7 @@ const statsStyles = StyleSheet.create({
   barCount: { color: 'rgba(255,255,255,0.5)', fontSize: 11, width: 42, textAlign: 'right' },
 })
 
+//lasketaan hakutuloksen osuvuuspisteet — tarkka vastaavuus saa enemmän pisteitä
 function getMatchScore(item: SpeciesItem, query: string) {
   const q = query.trim().toLowerCase()
   if (!q) return 0
@@ -364,6 +379,7 @@ function getMatchScore(item: SpeciesItem, query: string) {
   return 0
 }
 
+//palautetaan uhanalaisuuskoodin taustaväri- ja tekstiväri merkkiä varten
 function getEndangermentColors(code: string) {
   switch (code) {
     case 'RE': return { bg: '#5c0000', text: '#ffffff' }
@@ -377,6 +393,7 @@ function getEndangermentColors(code: string) {
   }
 }
 
+//uhanalaisuusmerkki jota painettaessa avautuu ponnahdusikkuna jossa on koodin selitys
 function EndangermentBadge({ scientificName }: { scientificName: string }) {
   const code = (endangermentMap as Record<string, string>)[scientificName] ?? 'NA'
   const { bg, text } = getEndangermentColors(code)
@@ -401,6 +418,7 @@ function EndangermentBadge({ scientificName }: { scientificName: string }) {
   )
 }
 
+//laajennettava osio lajiyksityiskohtanäkymässä — avautuu ja sulkeutuu painettaessa
 function AccordionSection({ title, text }: { title: string; text: string }) {
   const [open, setOpen] = React.useState(false)
   return (
@@ -439,7 +457,7 @@ const accordionStyles = StyleSheet.create({
   text: { color: colors.textSecondary, fontSize: 14, lineHeight: 22 },
 })
 
-// ── Main screen ───────────────────────────────────────────────
+//päänäkymä — kategoriavalinta, hakukenttä, lajilista ja detaljikortti
 export default function ListOfSpeciesScreen() {
   const insets = useSafeAreaInsets()
 
@@ -455,6 +473,7 @@ export default function ListOfSpeciesScreen() {
   const [detailError, setDetailError] = React.useState('')
   const [showStats, setShowStats] = React.useState(false)
 
+  //haetaan lajit valitun kategorian mukaan — ulkomaiset lajit kerätään kaikista kategorioista
   const fetchCategory = async (category: Category) => {
     setSelectedCategory(category)
     setSearchText('')
@@ -475,6 +494,7 @@ export default function ListOfSpeciesScreen() {
               .catch(() => [])
           )
         )
+        //poistetaan duplikaatit ennen lajien tallentamista
         const seen = new Set<string>()
         const combined = results.flat().filter((s: SpeciesItem) => {
           if (seen.has(s.id)) return false
@@ -493,6 +513,7 @@ export default function ListOfSpeciesScreen() {
     }
   }
 
+ //haetaan lajeja hakusanalla ja asetetaan lajitteluksi relevanssi
   const handleSearch = async (text: string) => {
     setSearchText(text)
     setSelectedCategory(null)
@@ -513,6 +534,7 @@ export default function ListOfSpeciesScreen() {
     }
   }
 
+  //haetaan lajin tarkemmat tiedot tunnuksen perusteella
   const handleSpeciesPress = async (id: string) => {
     try {
       setDetailLoading(true)
@@ -525,6 +547,7 @@ export default function ListOfSpeciesScreen() {
     }
   }
 
+  //tyhjennetään kaikki valinnat ja palauttaa kategorianäkymään
   const clearAll = () => {
     setSelectedCategory(null)
     setSpecies([])
@@ -534,6 +557,7 @@ export default function ListOfSpeciesScreen() {
     setDetailError('')
   }
 
+  //tallennetaan lajiteltu lajilista muistiin relevanssin, aakkosjärjestyksen tai uhanalaisuuden mukaan
   const sortedSpecies = React.useMemo(() => [...species].sort((a, b) => {
     const nameA = (a.finnishName || a.scientificName || '').toLowerCase()
     const nameB = (b.finnishName || b.scientificName || '').toLowerCase()
@@ -550,10 +574,13 @@ export default function ListOfSpeciesScreen() {
     return nameA.localeCompare(nameB)
   }), [species, sortMode, searchText])
 
+  //näytetään kategoriaruudukko kun haku on tyhjä eikä kategoriaa ole valittu
   const showCategories = !searchText.trim() && !selectedCategory
 
+  //vaihdetaan tilastonäkymään
   if (showStats) return <StatsView onBack={() => setShowStats(false)} />
 
+  //näytetään lajiyksityiskohdat tai lataus-/virhetila
   if (selectedSpecies || detailLoading || detailError) {
     return (
       <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
@@ -607,7 +634,7 @@ export default function ListOfSpeciesScreen() {
     <View style={[styles.container, { paddingTop: insets.top + 12, paddingBottom: 60 }]}>
       <View style={styles.content}>
 
-        {/* Header with stats button */}
+        {/*tilastopainike*/}
         <View style={styles.headerRow}>
           <View style={{ flex: 1 }} />
           <Text style={styles.title}>Species</Text>
@@ -618,6 +645,7 @@ export default function ListOfSpeciesScreen() {
           </View>
         </View>
 
+        {/*hakukenttä —kirjoitus käynnistää haun ja nollaa kategoriavalinnan*/}
         <TextInput
           style={styles.searchInput}
           placeholder="Search species by name"
@@ -626,6 +654,7 @@ export default function ListOfSpeciesScreen() {
           onChangeText={handleSearch}
         />
 
+        {/*valitun kategorian merkki*/}
         {!!selectedCategory && (
           <Pressable style={styles.categoryBadge} onPress={clearAll}>
             <Text style={styles.categoryBadgeText}>
@@ -636,6 +665,7 @@ export default function ListOfSpeciesScreen() {
           </Pressable>
         )}
 
+        {/*lajittelupainike*/}
         {!showCategories && species.length > 0 && (
           <View style={styles.sortMenuContainer}>
             <Pressable style={styles.sortButton} onPress={() => setShowSortMenu(v => !v)}>
@@ -656,6 +686,7 @@ export default function ListOfSpeciesScreen() {
         {loading && <ActivityIndicator style={{ marginBottom: 16 }} color={colors.textPrimary} />}
         {!!error && <Text style={styles.errorText}>{error}</Text>}
 
+        {/*näytetään joko kategoriaruudukko tai lajilista tilanteen mukaan*/}
         {showCategories ? (
           <FlatList
             data={CATEGORY_DATA}
@@ -663,6 +694,7 @@ export default function ListOfSpeciesScreen() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 120 }}
             ListFooterComponent={
+              //ulkomaiset lajit omana korttinaan listan lopussa
               <Pressable style={styles.categoryGroup} onPress={() => fetchCategory(FOREIGN_KEY)}>
                 <View style={styles.categoryRow}>
                   <View>

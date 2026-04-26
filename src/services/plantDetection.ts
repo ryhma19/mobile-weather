@@ -6,12 +6,8 @@ type PlantNetApiResult = {
   species?: {
     scientificName?: string
     commonNames?: string[]
-    family?: {
-      scientificName?: string
-    }
-    genus?: {
-      scientificName?: string
-    }
+    family?: { scientificName?: string }
+    genus?: { scientificName?: string }
   }
 }
 
@@ -23,17 +19,18 @@ type PlantNetApiResponse = {
 
 export async function detectPlantFromImage(imageUri: string): Promise<PlantDetectionResponse> {
   if (!PLANTNET_API_KEY) {
-  throw new Error("Missing Pl@ntNet API key")
-}
+    throw new Error("Missing Pl@ntNet API key")
+  }
+
+  console.log("API key:", PLANTNET_API_KEY)
+  console.log("Image URI:", imageUri)
 
   const formData = new FormData()
-
   formData.append("images", {
     uri: imageUri,
     name: "plant.jpg",
     type: "image/jpeg",
   } as any)
-
   formData.append("organs", "auto")
 
   const url =
@@ -41,29 +38,32 @@ export async function detectPlantFromImage(imageUri: string): Promise<PlantDetec
     `&nb-results=${PLANTNET_RESULTS_COUNT}` +
     `&include-related-images=false`
 
+  console.log("Request URL:", url)
+
   const response = await fetch(url, {
     method: "POST",
     body: formData,
   })
 
   if (!response.ok) {
-    throw new Error("Plant detection failed")
+    const errorBody = await response.text()
+    console.log("Status:", response.status)
+    console.log("Error body:", errorBody)
+    throw new Error(`Plant detection failed: ${response.status} - ${errorBody}`)
   }
 
   const data: PlantNetApiResponse = await response.json()
 
-  const results: PlantDetectionResult[] = (data.results || []).map((item) => {
-    return {
-      score: item.score || 0,
-      scientificName: item.species?.scientificName || "Unknown species",
-      commonName: item.species?.commonNames?.[0] || "No common name",
-      family: item.species?.family?.scientificName || "Unknown family",
-      genus: item.species?.genus?.scientificName || "Unknown genus",
-    }
-  })
+  const results: PlantDetectionResult[] = (data.results ?? []).map((item) => ({
+    score: item.score ?? 0,
+    scientificName: item.species?.scientificName ?? "Unknown species",
+    commonName: item.species?.commonNames?.[0] ?? "No common name",
+    family: item.species?.family?.scientificName ?? "Unknown family",
+    genus: item.species?.genus?.scientificName ?? "Unknown genus",
+  }))
 
   return {
-    bestMatch: data.bestMatch || "Unknown plant",
+    bestMatch: data.bestMatch ?? "Unknown plant",
     results,
     remainingIdentificationRequests: data.remainingIdentificationRequests,
   }
