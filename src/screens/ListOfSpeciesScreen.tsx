@@ -95,7 +95,7 @@ const ENDANGERMENT_META: Record<string, { labelFi: string; color: string }> = {
 
 //lajittelutilat käyttöliittymässä näytettävinä niminä
 const SORT_LABELS: Record<SortMode, string> = {
-  relevance: 'Relevance', az: 'A-Z', za: 'Z-A', endangerment: 'Endangerment',
+  relevance: 'Relevance', az: 'A-Ö', za: 'Ö-A', endangerment: 'Endangerment',
 }
 
 //donitsikaavioon tarvittavat vakiot
@@ -565,13 +565,13 @@ export default function ListOfSpeciesScreen() {
       const diff = getMatchScore(b, searchText) - getMatchScore(a, searchText)
       if (diff !== 0) return diff
     }
-    if (sortMode === 'za') return nameB.localeCompare(nameA)
+    if (sortMode === 'za') return nameB.localeCompare(nameA, 'fi')
     if (sortMode === 'endangerment') {
       const rankA = ENDANGERMENT_PRIORITY[(endangermentMap as Record<string, string>)[a.scientificName] ?? 'NA'] ?? 0
       const rankB = ENDANGERMENT_PRIORITY[(endangermentMap as Record<string, string>)[b.scientificName] ?? 'NA'] ?? 0
       if (rankA !== rankB) return rankB - rankA
     }
-    return nameA.localeCompare(nameB)
+    return nameA.localeCompare(nameB, 'fi')
   }), [species, sortMode, searchText])
 
   //näytetään kategoriaruudukko kun haku on tyhjä eikä kategoriaa ole valittu
